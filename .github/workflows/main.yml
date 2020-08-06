@@ -1,19 +1,14 @@
 name: React build
-on:
-  push:                               # master Branch에서 push 이벤트가 일어났을 때만 실행
-    branches:
-      - master
-    pull_request:
-      - master
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - name: Checkout source code.   # 레포지토리 체크아웃
+      - name: Checkout source code. # 레포지토리 체크아웃
         uses: actions/checkout@v2
 
-      - name: Cache node modules      # node modules 캐싱
+      - name: Cache node modules # node modules 캐싱
         uses: actions/cache@v2
         with:
           path: node_modules
@@ -22,13 +17,13 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
-      - name: Install Dependencies    # 의존 파일 설치
+      - name: Install Dependencies # 의존 파일 설치
         run: yarn install
 
-      - name: Build                   # React Build
+      - name: Build # React Build
         run: yarn build
 
-      - uses: actions/upload-artifact@v2  # Upload build output
+      - uses: actions/upload-artifact@v2 # Upload build output
         with:
           name: build
           path: build/
