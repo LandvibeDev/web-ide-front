@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 function DashBoardHeader(props) {
   const classes = useStyles();
 
-  const [openCreate, setOpenCreate] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
 
   const onClickCreate = () => {
-    setOpenCreate(true);
+    setIsOpenCreate(true);
   };
   const onClickCloseCreate = () => {
-    setOpenCreate(false);
+    setIsOpenCreate(false);
   };
 
   return (
@@ -53,7 +53,7 @@ function DashBoardHeader(props) {
         </Button>
       </Grid>
       <CreateDialog
-        openCreate={openCreate}
+        isOpenCreate={isOpenCreate}
         onClickCloseCreate={onClickCloseCreate}
       />
     </Box>

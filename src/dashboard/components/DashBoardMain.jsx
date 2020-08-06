@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Grid, Paper, Box } from '@material-ui/core';
-import DashBoardCard from './DashBoardCard';
+import ProjectItemCard from './ProjectItemCard';
 import DashBoardHeader from './DashBoardHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,18 +29,20 @@ function DashBoardMain(props) {
             justify={'center'}
             alignItems={'center'}
           >
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
-            <DashBoardCard></DashBoardCard>
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
+            <ProjectItemCard />
           </Grid>
         </Paper>
       </Box>

@@ -10,7 +10,7 @@ import {
 function DeleteDialog(props) {
   return (
     <Grid>
-      <Dialog open={props.openDelete} onClose={props.onClickCloseDelete}>
+      <Dialog open={props.isOpenDelete} onClose={props.onClickCloseDelete}>
         <DialogTitle id='alert-dialog-title'>{'삭제하시겠습니까?'}</DialogTitle>
         <DialogActions>
           <Button

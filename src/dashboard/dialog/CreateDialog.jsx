@@ -14,7 +14,7 @@ import {
 function CreateDialog(props) {
   return (
     <Dialog
-      open={props.openCreate}
+      open={props.isOpenCreate}
       onClose={props.onClickCloseCreate}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'

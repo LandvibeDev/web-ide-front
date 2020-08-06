@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoardCard() {
   const classes = useStyles();
-  const [openDelete, setOpenDelete] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const onClickOpenDelete = () => {
-    setOpenDelete(true);
+    setIsOpenDelete(true);
   };
 
   const onClickCloseDelete = () => {
-    setOpenDelete(false);
+    setIsOpenDelete(false);
   };
 
   return (
@@ -68,7 +68,7 @@ function DashBoardCard() {
         </Button>
       </Grid>
       <DeleteDialog
-        openDelete={openDelete}
+        isOpenDelete={isOpenDelete}
         onClickCloseDelete={onClickCloseDelete}
       />
     </Card>
