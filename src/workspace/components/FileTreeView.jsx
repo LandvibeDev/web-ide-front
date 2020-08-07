@@ -31,6 +31,16 @@ const data = {
           name: 'index.js',
           type: 'file',
         },
+        {
+          id: '6',
+          name: 'App.css',
+          type: 'file',
+        },
+        {
+          id: '7',
+          name: 'App.test.js',
+          type: 'file',
+        },
       ],
     },
   ],

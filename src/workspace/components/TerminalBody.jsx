@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TerminalBody(props) {
   const classes = useStyles();
-  return <div className={classes.root}>body</div>;
+  return <div className={classes.root}>Terminal</div>;
 }
 
 export default TerminalBody;
