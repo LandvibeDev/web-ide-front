@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
   menu: {
     borderRight: '1px solid gray',
   },
+  popper: {
+    zIndex: 1000,
+  },
 }));
 
 function HeaderMenuBtn(props) {
@@ -69,6 +72,7 @@ function HeaderMenuBtn(props) {
         transition
         disablePortal
         placement={'bottom-start'}
+        className={classes.popper}
       >
         {({ TransitionProps, placement }) => (
           <Grow
