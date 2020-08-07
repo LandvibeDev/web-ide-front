@@ -10,6 +10,8 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     padding: theme.spacing(1),
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
     borderRight: '1px solid gray',
   },
 }));

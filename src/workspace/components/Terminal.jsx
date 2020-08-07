@@ -1,19 +1,27 @@
 import React from 'react';
 
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-// const useStyles = makeStyles((theme) => ({}));
+import { Command, TerminalBody } from './';
+const useStyles = makeStyles((theme) => ({
+  children: {
+    height: '100%',
+  },
+  left: {
+    borderRight: '1px solid gray',
+  },
+}));
 
 function Terminal(props) {
-  //   const classes = useStyles();
+  const classes = useStyles();
   return (
-    <Grid container>
-      <Grid item xs={2}>
-        filetree
+    <Grid container className={classes.children}>
+      <Grid item xs={2} className={classes.left}>
+        <Command />
       </Grid>
       <Grid item xs={10}>
-        body
+        <TerminalBody />
       </Grid>
     </Grid>
   );
