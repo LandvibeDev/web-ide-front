@@ -7,12 +7,12 @@ import Grid from '@material-ui/core/Grid';
 
 import { CodeEditorView } from './';
 
-function a11yProps(index) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
-  };
-}
+// function a11yProps(index) {
+//   return {
+//     id: `scrollable-auto-tab-${index}`,
+//     'aria-controls': `scrollable-auto-tabpanel-${index}`,
+//   };
+// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
