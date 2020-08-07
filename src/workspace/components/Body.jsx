@@ -2,7 +2,8 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { FileTree, CodeEditor } from './';
+import { FileTree } from './';
+import { CurrentFileContainer } from '../containers';
 const useStyles = makeStyles((theme) => ({
   children: {
     position: 'absolute',
@@ -22,7 +23,7 @@ function Body(props) {
         <FileTree />
       </Grid>
       <Grid item xs={10}>
-        <CodeEditor />
+        <CurrentFileContainer />
       </Grid>
     </Grid>
   );
