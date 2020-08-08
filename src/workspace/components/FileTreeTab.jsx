@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-function FileTab(props) {
+function FileTreeTab(props) {
   const classes = useStyles();
 
   return (
@@ -29,4 +29,4 @@ function FileTab(props) {
   );
 }
 
-export default FileTab;
+export default FileTreeTab;

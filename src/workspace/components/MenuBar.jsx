@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { HeaderMenuBtn } from './';
+import { MenuItem } from '.';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HeaderMenuList(props) {
+function MenuBar(props) {
   const classes = useStyles();
 
   const handleFileItemClick = (event) => {
@@ -24,7 +24,7 @@ function HeaderMenuList(props) {
 
   return (
     <div className={classes.root}>
-      <HeaderMenuBtn
+      <MenuItem
         title="File"
         handleItemClick={handleFileItemClick}
         MenuItems={[
@@ -37,12 +37,12 @@ function HeaderMenuList(props) {
           { name: 'File Upload' },
         ]}
       />
-      <HeaderMenuBtn
+      <MenuItem
         title="Edit"
         handleItemClick={handleEditItemClick}
         MenuItems={[{ name: 'Find' }, { name: 'Replace' }]}
       />
-      <HeaderMenuBtn
+      <MenuItem
         title="Project"
         handleItemClick={handleProjectItemClick}
         MenuItems={[
@@ -55,4 +55,4 @@ function HeaderMenuList(props) {
     </div>
   );
 }
-export default HeaderMenuList;
+export default MenuBar;

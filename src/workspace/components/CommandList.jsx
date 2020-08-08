@@ -8,9 +8,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Command(props) {
+function CommandList(props) {
   const classes = useStyles();
   return <div className={classes.root}>Run/Build/Custom</div>;
 }
 
-export default Command;
+export default CommandList;

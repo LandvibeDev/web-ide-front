@@ -4,7 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItemUI from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HeaderMenuBtn(props) {
+function MenuItem(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -91,9 +91,9 @@ function HeaderMenuBtn(props) {
                 >
                   {props.MenuItems.map((menu, index) => {
                     return (
-                      <MenuItem onClick={handleClick} key={index}>
+                      <MenuItemUI onClick={handleClick} key={index}>
                         {menu.name}
-                      </MenuItem>
+                      </MenuItemUI>
                     );
                   })}
                 </MenuList>
@@ -105,4 +105,4 @@ function HeaderMenuBtn(props) {
     </div>
   );
 }
-export default HeaderMenuBtn;
+export default MenuItem;
