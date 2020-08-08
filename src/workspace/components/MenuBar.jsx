@@ -25,6 +25,14 @@ function MenuBar(props) {
   return (
     <div className={classes.root}>
       <MenuItem
+        title={
+          <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+            울림 IDE
+          </div>
+        }
+        MenuItems={[]}
+      />
+      <MenuItem
         title="File"
         handleItemClick={handleFileItemClick}
         MenuItems={[

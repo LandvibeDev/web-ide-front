@@ -13,6 +13,9 @@ export { default as Explorer } from './Explorer';
 export { default as FileTreeTab } from './FileTreeTab';
 export { default as FileTree } from './FileTree';
 export { default as CommandList } from './CommandList';
+export { default as CommandItem } from './CommandItem';
 
 export { default as BottomPanel } from './BottomPanel';
 export { default as Terminal } from './Terminal';
+export { default as InputPrompt } from './InputPrompt';
+export { default as OutputLog } from './OutputLog';
