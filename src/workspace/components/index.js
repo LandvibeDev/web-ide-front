@@ -18,4 +18,4 @@ export { default as CommandItem } from './CommandItem';
 export { default as BottomPanel } from './BottomPanel';
 export { default as Terminal } from './Terminal';
 export { default as InputPrompt } from './InputPrompt';
-export { default as OutputLog } from './OutputLog';
+export { default as OutputPrompt } from './OutputPrompt';

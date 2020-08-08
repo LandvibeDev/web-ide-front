@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { InputPrompt, OutputLog } from './';
+import { InputPrompt, OutputPrompt } from './';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,17 +11,17 @@ const useStyles = makeStyles((theme) => ({
 
 function Terminal(props) {
   const classes = useStyles();
-  const [outputLog, setOutputLog] = useState('');
+  const [output, setOutput] = useState('');
 
-  const addOutputLog = (input) => {
-    const newLog = outputLog + '\n' + input;
-    setOutputLog(newLog);
+  const addOutput = (input) => {
+    const newOutput = output + '\n' + input;
+    setOutput(newOutput);
   };
 
   return (
     <div className={classes.root}>
-      <OutputLog data={outputLog} />
-      <InputPrompt submit={addOutputLog} />
+      <OutputPrompt data={output} />
+      <InputPrompt submit={addOutput} />
     </div>
   );
 }

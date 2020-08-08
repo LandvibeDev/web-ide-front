@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from 'react';
 
-function OutputLog({ data }) {
+function OutputPrompt({ data }) {
   useEffect(() => {
     const logDiv = document.getElementById('logDiv');
     logDiv.scrollTop = logDiv.scrollHeight;
@@ -28,4 +28,4 @@ function OutputLog({ data }) {
   );
 }
 
-export default OutputLog;
+export default OutputPrompt;
