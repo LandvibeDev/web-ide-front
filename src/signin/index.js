@@ -1,2 +1,2 @@
-export { default as SignInView } from './view/SignInView';
-export { default as SignUpView } from './view/SignUpView';
+export { default as SignInView } from './container/SignInView';
+export { default as SignUpView } from './container/SignUpView';
