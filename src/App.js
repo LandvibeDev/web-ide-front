@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import SignInView from './signin/container/SignInView';
-import SignUpView from './signin/container/SignUpView';
+import { SignInView, SignUpView } from './signin';
 import { WorkSpaceMain } from './workspace';
 import { DashBoardMain } from './dashboard';
 
