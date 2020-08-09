@@ -16,6 +16,7 @@ function SignUp(props) {
   });
 
   const [isTermChecked, setTermChecked] = useState(false);
+  const [termError, setTermError] = useState(false);
 
   const userHandle = (v) => (e) => {
     setUser({
@@ -25,13 +26,14 @@ function SignUp(props) {
   };
 
   const checkHandle = (e) => {
-    setTermChecked(!e.target.checked);
-  };
+    setTermError(false);
+    setTermChecked(e.target.checked);
+  }
 
   const onSubmitSignup = (e) => {
     e.preventDefault();
     if (!isTermChecked) {
-      return setTermChecked(true);
+      return setTermError(true);
     }
   };
 
@@ -99,7 +101,7 @@ function SignUp(props) {
                     >
                       동의하십니까?
                     </Checkbox>
-                    {isTermChecked && (
+                    {termError && (
                       <div style={{ color: 'blue' }}>
                         약관에 동의하셔야 합니다.
                       </div>
