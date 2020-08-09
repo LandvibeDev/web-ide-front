@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import SignInView from './signin/view/SignInView';
 import SignUpView from './signin/view/SignUpView';
 import WorkSpaceMain from './workspace/WorkSpaceMain';
-import DashBoardMain from './dashboard/DashBoardMain';
+import DashBoardMain from './dashboard/components/DashBoardMain';
 
 function App() {
   return (
