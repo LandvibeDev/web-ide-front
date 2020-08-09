@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import SignInView from './signin/view/SignInView';
 import SignUpView from './signin/view/SignUpView';
-import WorkSpaceMain from './workspace/WorkSpaceMain';
-import DashBoardMain from './dashboard/components/DashBoardMain';
+import { WorkSpaceMain } from './workspace';
+import { DashBoardMain } from './dashboard';
 
 function App() {
   return (
