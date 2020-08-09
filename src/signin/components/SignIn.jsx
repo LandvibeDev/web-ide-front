@@ -11,6 +11,8 @@ function SignIn(props) {
     '205753666169-9rf5ok863ug67g84juf3ngb1vr6ibgae.apps.googleusercontent.com';
   const githubClientId = 'dbefa8a77a035ec6619e';
 
+  const redirect_uri = 'http://localhost:3000/signup';
+
   const onSuccessLogin = (res) => {
     console.log('[로그인 성공] 현재 사용자 : ', res);
     props.history.replace('/signup');
@@ -18,7 +20,7 @@ function SignIn(props) {
 
   const onFailureLogin = (err) => {
     console.log('[로그인 실패] ', err);
-  }
+  };
 
   return (
     <div>
@@ -38,7 +40,7 @@ function SignIn(props) {
         <GitHubLogin
           className="githublogin"
           clientId={githubClientId}
-          redirectUri="http://localhost:3000/signup"
+          redirectUri={redirect_uri}
           onSuccess={onSuccessLogin}
           onFailure={onFailureLogin}
           buttonText="Sign In with GitHub"

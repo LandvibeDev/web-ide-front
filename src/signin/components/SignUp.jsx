@@ -15,8 +15,7 @@ function SignUp(props) {
     bio: '',
   });
 
-  const [term, setTerm] = useState(false);
-  const [termError, setTermError] = useState(false);
+  const [isTermChecked, setTermChecked] = useState(false);
 
   const userHandle = (v) => (e) => {
     setUser({
@@ -25,15 +24,14 @@ function SignUp(props) {
     });
   };
 
-  const onChangeTerm = (e) => {
-    setTermError(!term);
-    setTerm(!term);
+  const checkHandle = (e) => {
+    setTermChecked(!e.target.checked);
   };
 
   const onSubmitSignup = (e) => {
     e.preventDefault();
-    if (!term) {
-      return setTermError(true);
+    if (!isTermChecked) {
+      return setTermChecked(true);
     }
   };
 
@@ -42,31 +40,31 @@ function SignUp(props) {
       <div style={{ float: 'left' }}>
         <form onSubmit={onSubmitSignup}>
           <div className="attribute-align">
-            <div className="attribute">nickname</div>
+            <div className="attribute">닉네임</div>
             <TextField
               name="user-nickname"
               value={user.nickname}
               required
               style={{ margin: 5, width: 400 }}
-              label="nickname"
+              label="닉네임"
               variant="outlined"
               onChange={userHandle('nickname')}
             />
           </div>
           <div className="attribute-align">
-            <div className="attribute">email</div>
+            <div className="attribute">이메일</div>
             <TextField
               name="user-email"
               value={user.email}
               required
               style={{ margin: 5, width: 400 }}
-              label="email"
+              label="이메일"
               variant="outlined"
               onChange={userHandle('email')}
             />
           </div>
           <div className="attribute-align">
-            <div className="attribute">bio</div>
+            <div className="attribute">소개</div>
             <TextField
               name="user-bio"
               value={user.bio}
@@ -74,7 +72,7 @@ function SignUp(props) {
               rows={3}
               required
               style={{ margin: 5, width: 400 }}
-              label="bio"
+              label="소개"
               variant="outlined"
               onChange={userHandle('bio')}
             />
@@ -96,12 +94,12 @@ function SignUp(props) {
                     <Checkbox
                       name="valid"
                       color="primary"
-                      value={term}
-                      onChange={onChangeTerm}
+                      value={isTermChecked}
+                      onChange={checkHandle}
                     >
                       동의하십니까?
                     </Checkbox>
-                    {termError && (
+                    {isTermChecked && (
                       <div style={{ color: 'blue' }}>
                         약관에 동의하셔야 합니다.
                       </div>
@@ -117,7 +115,7 @@ function SignUp(props) {
               color="primary"
               style={{ float: 'right' }}
             >
-              SIGN IN
+              SIGN UP
             </Button>
           </div>
 
