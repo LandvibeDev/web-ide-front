@@ -1,0 +1,75 @@
+{
+  "files": {
+    "id": 1,
+    "name": "Project",
+    "children": [
+      {
+        "id": 2,
+        "name": "src",
+        "type": "directory",
+        "permission": 777,
+        "children": [
+          {
+            "id": 3,
+            "name": "test1.js",
+            "type": "file",
+            "permission": 777
+          },
+          {
+            "id": 4,
+            "name": "test2.js",
+            "type": "file",
+            "permission": 777
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "node_modules",
+        "type": "directory",
+        "permission": 777,
+        "children": []
+      },
+      {
+        "id": 6,
+        "name": "package.json",
+        "type": "file",
+        "permission": 777
+      }
+    ]
+  },
+  "file": [
+    {
+      "id": 3,
+      "name": "test1.js",
+      "type": "file",
+      "permission": 777,
+      "parentId": 2,
+      "contents": "hello"
+    },
+    {
+      "id": 4,
+      "name": "test2.js",
+      "type": "file",
+      "permission": 777,
+      "parentId": 2,
+      "contents": "test2.js"
+    },
+    {
+      "id": 6,
+      "name": "package.json",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "package.json"
+    },
+    {
+      "name": "하이",
+      "type": "file",
+      "permission": 777,
+      "parentId": 5,
+      "contents": "",
+      "id": 7
+    }
+  ]
+}

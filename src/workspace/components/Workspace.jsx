@@ -33,7 +33,7 @@ function Workspace() {
         .catch((error) => {
           console.log(error);
         });
-    }
+    } else if (file !== null) setFile(null);
   }, [currentFile, file]);
 
   return (
