@@ -30,20 +30,38 @@ function reducers(state = initialState, action) {
         openFiles: newArr,
       };
     case CLEARFILE:
-      // TODO : 오류있어서 수정중
-      // const newOpenFiles = state.openFiles.filter(
-      //   (file) => file.id !== action.id,
-      // );
+      const newOpenFiles = state.openFiles.filter(
+        (file) => file.id !== action.id,
+      );
 
-      // const newCurrentFile =
-      //   newOpenFiles.length !== 0
-      //     ? newOpenFiles[newOpenFiles.length - 1]
-      //     : { id: null, name: null };
-      return {
-        ...state,
-        // currentFile: { id: newCurrentFile.id, name: newCurrentFile.name },
-        // openFiles: newOpenFiles,
-      };
+      // 아무 파일도 열려있지 않을 때는 Project로 포커스 이동
+      if (newOpenFiles.length === 0) {
+        return {
+          ...state,
+          currentFile: { id: null, name: null },
+          openFiles: newOpenFiles,
+          directoryId: '1',
+        };
+      } else {
+        // 현재 보고있는 파일을 닫은경우
+        if (state.currentFile.id === action.id) {
+          const newCurrentFile = newOpenFiles[newOpenFiles.length - 1];
+          return {
+            ...state,
+            currentFile: { id: newCurrentFile.id, name: newCurrentFile.name },
+            openFiles: newOpenFiles,
+          };
+        } else {
+          return {
+            ...state,
+            openFiles: newOpenFiles,
+            currentFile: {
+              id: state.currentFile.id,
+              name: state.currentFile.name,
+            },
+          };
+        }
+      }
     case SELECTDIR:
       return {
         ...state,
