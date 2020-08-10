@@ -12,6 +12,7 @@ function App() {
         <Route path="/signup" component={SignUpView} />
         <Route path="/workspace" component={WorkSpaceMain} />
         <Route path="/dashboard" component={DashBoardMain} />
+        <Route exact path="/" component={WorkSpaceMain} />
       </BrowserRouter>
     </div>
   );

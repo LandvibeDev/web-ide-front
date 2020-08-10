@@ -13,13 +13,13 @@ function MenuBar(props) {
   const classes = useStyles();
 
   const handleFileItemClick = (event) => {
-    console.log(event.target);
+    console.log(event);
   };
   const handleEditItemClick = (event) => {
-    console.log(event.target);
+    console.log(event);
   };
   const handleProjectItemClick = (event) => {
-    console.log(event.target);
+    console.log(event);
   };
 
   return (
@@ -30,6 +30,7 @@ function MenuBar(props) {
             울림 IDE
           </div>
         }
+        type="menuBar"
         MenuItems={[]}
       />
       <MenuItem
@@ -44,11 +45,13 @@ function MenuBar(props) {
           { name: 'Rename' },
           { name: 'File Upload' },
         ]}
+        type="menuBar"
       />
       <MenuItem
         title="Edit"
         handleItemClick={handleEditItemClick}
         MenuItems={[{ name: 'Find' }, { name: 'Replace' }]}
+        type="menuBar"
       />
       <MenuItem
         title="Project"
@@ -59,6 +62,7 @@ function MenuBar(props) {
           { name: 'Refresh' },
           { name: 'Configure Environment' },
         ]}
+        type="menuBar"
       />
     </div>
   );
