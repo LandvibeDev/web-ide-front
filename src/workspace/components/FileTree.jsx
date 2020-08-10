@@ -67,6 +67,10 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
       });
   }, []);
 
+  useEffect(() => {
+    if (currentFile.id === null) setselectedId('1');
+  }, [currentFile]);
+
   // 파일, 폴더 새로 생성됐을때 , openfiletab에서 현재와 다른 파일 tab 선택했을때 filetree select값 변경
   useEffect(() => {
     if (currentFile.id !== null && String(currentFile.id) !== selectedId) {
