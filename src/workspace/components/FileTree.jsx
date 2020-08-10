@@ -1,46 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
-import { useDispatch } from 'react-redux';
-import { selectFile } from '../modules/reducers';
-
-const data = {
-  id: 'root',
+import fileAPIs from '../APIs/fileAPIs';
+const test = {
+  id: '1',
   name: 'Project',
   children: [
     {
-      id: '1',
-      name: 'public',
-      type: 'directory',
-    },
-    {
-      id: '3',
+      id: '2',
       name: 'src',
       type: 'directory',
+      permission: 777,
       children: [
         {
+          id: '3',
+          name: 'test1.js',
+          type: 'file',
+          permission: 777,
+        },
+        {
           id: '4',
-          name: 'App.js',
+          name: 'test2.js',
           type: 'file',
-        },
-        {
-          id: '5',
-          name: 'index.js',
-          type: 'file',
-        },
-        {
-          id: '6',
-          name: 'App.css',
-          type: 'file',
-        },
-        {
-          id: '7',
-          name: 'App.test.js',
-          type: 'file',
+          permission: 777,
         },
       ],
+    },
+    {
+      id: '5',
+      name: 'node_modules',
+      type: 'directory',
+      permission: 777,
+      children: [],
+    },
+    {
+      id: '6',
+      name: 'package.json',
+      type: 'file',
+      permission: 777,
     },
   ],
 };
@@ -51,23 +50,41 @@ const useStyles = makeStyles({
   },
 });
 
-function FileTree(props) {
+function FileTree({ directoryId, setCurrentInfo, currentFile }) {
   const classes = useStyles();
+  const [data, setData] = useState(null);
+  const [selectedId, setselectedId] = useState('1');
 
-  // redux로 codeEditor에 보여질 파일관리
-  const dispatch = useDispatch();
-  const onSelectFile = (name) => dispatch(selectFile(name));
+  useEffect(() => {
+    fileAPIs
+      .get('/files')
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => {
+        setData(test);
+        console.log(error);
+      });
+  }, []);
+
+  // 파일, 폴더 새로 생성됐을때 , openfiletab에서 현재와 다른 파일 tab 선택했을때 filetree select값 변경
+  useEffect(() => {
+    if (currentFile.id !== null && String(currentFile.id) !== selectedId) {
+      // 파일선택하다가 폴더 선택했을때 두개 select되는거 방지
+      if (String(directoryId) !== selectedId)
+        setselectedId(String(currentFile.id));
+    }
+  }, [currentFile, selectedId, directoryId]);
 
   const handleClick = (e) => {
-    if (e.type === 'file') {
-      onSelectFile(e.name);
-    }
+    setselectedId(String(e.id));
+    setCurrentInfo(e);
   };
 
   const renderTree = (nodes) => (
     <TreeItem
-      key={nodes.id}
-      nodeId={nodes.id}
+      key={String(nodes.id)}
+      nodeId={String(nodes.id)}
       label={nodes.name}
       onClick={() => handleClick(nodes)}
     >
@@ -81,10 +98,11 @@ function FileTree(props) {
     <TreeView
       className={classes.root}
       defaultCollapseIcon={'>'}
-      defaultExpanded={['root']}
+      defaultExpanded={['1']}
+      selected={selectedId}
       defaultExpandIcon={'+'}
     >
-      {renderTree(data)}
+      {data !== null ? renderTree(data) : null}
     </TreeView>
   );
 }

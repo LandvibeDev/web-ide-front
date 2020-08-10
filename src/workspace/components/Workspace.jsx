@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Workspace() {
   const classes = useStyles();
-  const { name, openFiles } = useSelector((state) => ({
-    name: state.currentFileName,
+  const { currentFile, openFiles } = useSelector((state) => ({
+    currentFile: state.currentFile,
     openFiles: state.openFiles,
   }));
 
@@ -23,13 +23,13 @@ function Workspace() {
     <Fragment>
       <Grid container>
         <Grid item xs={11} className={classes.openFileTab}>
-          <OpenFileTab fileName={name} openFiles={openFiles} />
+          <OpenFileTab currentFile={currentFile} openFiles={openFiles} />
         </Grid>
         <Grid item xs={1}>
           <QuickIconTab />
         </Grid>
       </Grid>
-      <Editor fileName={name} />
+      <Editor fileName={currentFile.name} />
     </Fragment>
   );
 }
