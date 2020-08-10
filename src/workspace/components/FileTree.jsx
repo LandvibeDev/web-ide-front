@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-
+import FolderIcon from '@material-ui/icons/Folder';
+import DescriptionIcon from '@material-ui/icons/Description';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import fileAPIs from '../APIs/fileAPIs';
 const test = {
   id: '1',
@@ -48,6 +51,10 @@ const useStyles = makeStyles({
   root: {
     height: '100%',
   },
+  icon: {
+    paddingRight: 3,
+    fontSize: '0.9rem',
+  },
 });
 
 function FileTree({ directoryId, setCurrentInfo, currentFile }) {
@@ -89,7 +96,16 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
     <TreeItem
       key={String(nodes.id)}
       nodeId={String(nodes.id)}
-      label={nodes.name}
+      label={
+        <span>
+          {nodes.type === 'file' ? (
+            <DescriptionIcon className={classes.icon} color="primary" />
+          ) : (
+            <FolderIcon className={classes.icon} color="disabled" />
+          )}
+          {nodes.name}
+        </span>
+      }
       onClick={() => handleClick(nodes)}
     >
       {Array.isArray(nodes.children)
@@ -101,10 +117,10 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
   return (
     <TreeView
       className={classes.root}
-      defaultCollapseIcon={'>'}
+      defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpanded={['1']}
       selected={selectedId}
-      defaultExpandIcon={'+'}
+      defaultExpandIcon={<ChevronRightIcon />}
     >
       {data !== null ? renderTree(data) : null}
     </TreeView>
