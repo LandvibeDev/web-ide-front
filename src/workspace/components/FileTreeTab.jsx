@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-function FileTreeTab({ directoryId, setCurrentInfo }) {
+function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
   const classes = useStyles();
@@ -44,6 +44,7 @@ function FileTreeTab({ directoryId, setCurrentInfo }) {
       })
       .then((res) => {
         setCurrentInfo(res.data);
+        getFiles();
       })
       .catch((error) => {
         console.log(error);

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { OpenFileTab, Editor, QuickIconTab } from './';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,24 +17,26 @@ const useStyles = makeStyles((theme) => ({
 function Workspace() {
   const classes = useStyles();
   const [file, setFile] = useState(null);
-  const { currentFile, openFiles } = useSelector((state) => ({
-    currentFile: state.currentFile,
-    openFiles: state.openFiles,
-  }));
+  const currentFile = useSelector((state) => state.currentFile);
+  const openFiles = useSelector((state) => state.openFiles);
+  const directoryId = useSelector((state) => state.directoryId);
+
+  // 에디터에서 보여질 파일 조회
+  const getFile = useCallback(async () => {
+    try {
+      const res = await fileAPIs.get(`/file/${currentFile.id}`);
+      setFile(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [currentFile]);
 
   useEffect(() => {
     if (currentFile.id !== null) {
       if (file !== null && file.id === currentFile.id) return;
-      fileAPIs
-        .get(`/file/${currentFile.id}`)
-        .then((res) => {
-          setFile(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      getFile();
     } else if (file !== null) setFile(null);
-  }, [currentFile, file]);
+  }, [currentFile, file, getFile]);
 
   return (
     <Fragment>
@@ -43,7 +45,8 @@ function Workspace() {
           <OpenFileTab
             currentFile={currentFile}
             openFiles={openFiles}
-            setCurrentFile={setFile}
+            directoryId={directoryId}
+            setFile={setFile}
           />
         </Grid>
         <Grid item xs={1}>
