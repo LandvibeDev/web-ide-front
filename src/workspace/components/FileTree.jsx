@@ -6,7 +6,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import fileAPIs from '../APIs/fileAPIs';
+
 const test = {
   id: '1',
   name: 'Project',
@@ -57,25 +57,12 @@ const useStyles = makeStyles({
   },
 });
 
-function FileTree({ directoryId, setCurrentInfo, currentFile }) {
+function FileTree({ directoryId, setCurrentInfo, currentFile, files }) {
   const classes = useStyles();
-  const [data, setData] = useState(null);
-  const [selectedId, setselectedId] = useState('1');
+  const [selectedId, setSelectedId] = useState('1');
 
   useEffect(() => {
-    fileAPIs
-      .get('/files')
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        setData(test);
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (currentFile.id === null) setselectedId('1');
+    if (currentFile.id === null) setSelectedId('1');
   }, [currentFile]);
 
   // 파일, 폴더 새로 생성됐을때 , openfiletab에서 현재와 다른 파일 tab 선택했을때 filetree select값 변경
@@ -83,13 +70,15 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
     if (currentFile.id !== null && String(currentFile.id) !== selectedId) {
       // 파일선택하다가 폴더 선택했을때 두개 select되는거 방지
       if (String(directoryId) !== selectedId)
-        setselectedId(String(currentFile.id));
+        setSelectedId(String(currentFile.id));
     }
   }, [currentFile, selectedId, directoryId]);
 
   const handleClick = (e) => {
-    setselectedId(String(e.id));
-    setCurrentInfo(e);
+    if (String(e.id) !== selectedId) {
+      setSelectedId(String(e.id));
+      setCurrentInfo(e);
+    }
   };
 
   const renderTree = (nodes) => (
@@ -121,7 +110,7 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
       selected={selectedId}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      {data !== null && renderTree(data)}
+      {files !== null ? renderTree(files) : renderTree(test)}
     </TreeView>
   );
 }

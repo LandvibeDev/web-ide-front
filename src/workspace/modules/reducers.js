@@ -1,14 +1,14 @@
-const SELECTFILE = 'SELECTFILE';
-const CLEARFILE = 'CLEARFILE';
-const SELECTDIR = 'SELECTDIR';
+const SELECT_FILE = 'SELECT_FILE';
+const CLEAR_FILE = 'CLEAR_FILE';
+const SELECT_DIR = 'SELECT_DIR';
 
 export const selectFile = (id, name) => ({
-  type: SELECTFILE,
+  type: SELECT_FILE,
   id: id,
   name: name,
 });
-export const clearFile = (id) => ({ type: CLEARFILE, id: id });
-export const selectDirectory = (id) => ({ type: SELECTDIR, id: id });
+export const clearFile = (id) => ({ type: CLEAR_FILE, id: id });
+export const selectDirectory = (id) => ({ type: SELECT_DIR, id: id });
 
 const initialState = {
   openFiles: [],
@@ -17,7 +17,7 @@ const initialState = {
 };
 function reducers(state = initialState, action) {
   switch (action.type) {
-    case SELECTFILE:
+    case SELECT_FILE:
       let newArr = state.openFiles;
       if (
         state.openFiles.filter((file) => file.id === action.id).length === 0
@@ -29,7 +29,7 @@ function reducers(state = initialState, action) {
         currentFile: { id: action.id, name: action.name },
         openFiles: newArr,
       };
-    case CLEARFILE:
+    case CLEAR_FILE:
       const newOpenFiles = state.openFiles.filter(
         (file) => file.id !== action.id,
       );
@@ -62,7 +62,7 @@ function reducers(state = initialState, action) {
           };
         }
       }
-    case SELECTDIR:
+    case SELECT_DIR:
       return {
         ...state,
         directoryId: action.id,

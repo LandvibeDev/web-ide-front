@@ -50,13 +50,13 @@ function MenuItem(props) {
   };
 
   return (
-    <div className={props.type === 'menuBar' && classes.menu}>
+    <div className={props.type === 'menuBar' ? classes.menu : null}>
       <Button
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        className={(props.type === 'fileTreeTab') & classes.fileTree}
+        className={props.type === 'fileTreeTab' ? classes.fileTree : null}
       >
         {props.title}
       </Button>

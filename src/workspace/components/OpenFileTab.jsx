@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function OpenFileTab({ currentFile, openFiles, setCurrentFile }) {
+function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState(null); // material-tab에서 현재탭(파란색)으로 표시되는 값 변수
 
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
@@ -36,9 +36,10 @@ function OpenFileTab({ currentFile, openFiles, setCurrentFile }) {
     fileAPIs
       .get(`/file/${id}`)
       .then((res) => {
-        setCurrentFile(res.data);
+        setFile(res.data);
         onSelectFile(res.data.id, res.data.name); // 선택한 파일 editor에 보여주기 위해서 설정
-        onSelectDirectory(res.data.parentId); // 선택한 파일의 상위 디렉토리정보를 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
+        if (directoryId !== res.data.parentId)
+          onSelectDirectory(res.data.parentId); // 선택한 파일의 상위 디렉토리정보를 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
       })
       .catch((error) => {
         console.log(error);
@@ -52,8 +53,9 @@ function OpenFileTab({ currentFile, openFiles, setCurrentFile }) {
 
   const handleChange = (e, newValue) => {
     // closebtn 눌렸을땐 reducer에서 currentfile 변경해주니깐 제외해줌
-    if (e.target.tagName !== 'svg' && e.target.tagName !== 'path')
-      setCurrentInfo(newValue);
+    if (e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
+      if (currentFile.id !== newValue) setCurrentInfo(newValue);
+    }
   };
 
   useEffect(() => {
