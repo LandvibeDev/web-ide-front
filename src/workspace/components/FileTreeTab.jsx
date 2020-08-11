@@ -53,14 +53,14 @@ function FileTreeTab({ directoryId, setCurrentInfo }) {
 
   return (
     <div>
-      {fileType !== null ? (
+      {fileType !== null && (
         <CreateFileDialog
           open={fileDialogOpen}
           handleClose={handleFileDialogClose}
           handleSubmit={handleFileDialogSubmit}
           type={fileType}
         />
-      ) : null}
+      )}
       <Grid
         container
         direction="row"

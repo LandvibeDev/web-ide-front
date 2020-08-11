@@ -93,7 +93,9 @@ function OpenFileTab({ currentFile, openFiles, setCurrentFile }) {
             );
           })}
         </Tabs>
-      ) : null}
+      ) : (
+        <Tabs />
+      )}
     </AppBar>
   );
 }

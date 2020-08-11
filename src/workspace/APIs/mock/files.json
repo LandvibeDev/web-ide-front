@@ -62,14 +62,6 @@
       "permission": 777,
       "parentId": 1,
       "contents": "package.json"
-    },
-    {
-      "name": "하이",
-      "type": "file",
-      "permission": 777,
-      "parentId": 5,
-      "contents": "",
-      "id": 7
     }
   ]
 }

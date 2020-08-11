@@ -108,9 +108,8 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
       }
       onClick={() => handleClick(nodes)}
     >
-      {Array.isArray(nodes.children)
-        ? nodes.children.map((node) => renderTree(node))
-        : null}
+      {Array.isArray(nodes.children) &&
+        nodes.children.map((node) => renderTree(node))}
     </TreeItem>
   );
 
@@ -122,7 +121,7 @@ function FileTree({ directoryId, setCurrentInfo, currentFile }) {
       selected={selectedId}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      {data !== null ? renderTree(data) : null}
+      {data !== null && renderTree(data)}
     </TreeView>
   );
 }
