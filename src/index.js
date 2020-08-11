@@ -7,7 +7,9 @@ import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './workspace/modules/reducers';
-const store = createStore(reducers);
+import { composeWithDevTools } from 'redux-devtools-extension'; // 리덕스 개발자 도구
+
+const store = createStore(reducers, composeWithDevTools());
 
 ReactDOM.render(
   <React.StrictMode>
