@@ -18,14 +18,17 @@ function SignUp(props) {
   const [isTermChecked, setTermChecked] = useState(false);
   const [termError, setTermError] = useState(false);
 
-  const handleChangeUser = (e) => {
-    setUser({ [e.target.name]: e.target.value });
+  const handleChangeUser = (v) => (e) => {
+    setUser({
+      ...user,
+      [v]: e.target.value,
+    });
   };
 
-  const handleChangeCheckbox = (e) => {
+  const handleChangeCheck = (e) => {
     setTermError(false);
     setTermChecked(e.target.checked);
-  };
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +50,7 @@ function SignUp(props) {
               style={{ margin: 5, width: 400 }}
               label="닉네임"
               variant="outlined"
-              onChange={handleChangeUser}
+              onChange={handleChangeUser('nickname')}
             />
           </div>
           <div className="attribute-align">
@@ -59,7 +62,7 @@ function SignUp(props) {
               style={{ margin: 5, width: 400 }}
               label="이메일"
               variant="outlined"
-              onChange={handleChangeUser}
+              onChange={handleChangeUser('email')}
             />
           </div>
           <div className="attribute-align">
@@ -73,7 +76,7 @@ function SignUp(props) {
               style={{ margin: 5, width: 400 }}
               label="소개"
               variant="outlined"
-              onChange={handleChangeUser}
+              onChange={handleChangeUser('bio')}
             />
           </div>
           <div className="attribute-align">
@@ -94,7 +97,7 @@ function SignUp(props) {
                       name="valid"
                       color="primary"
                       value={isTermChecked}
-                      onChange={handleChangeCheckbox}
+                      onChange={handleChangeCheck}
                     >
                       동의하십니까?
                     </Checkbox>
