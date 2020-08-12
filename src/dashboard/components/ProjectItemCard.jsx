@@ -40,28 +40,28 @@ function DashBoardCard() {
 
   return (
     <Card className={classes.root}>
-      <CardContent variant={'elevation'}>
-        <Typography gutterBottom variant='h5' component='h2'>
+      <CardContent variant={'elevation'} align="center">
+        <Typography gutterBottom variant="h5" component="h2">
           project name
         </Typography>
-        <Typography variant='body2' color='textSecondary' component='h4'>
+        <Typography variant="body2" color="textSecondary" component="h4">
           project dicription
         </Typography>
       </CardContent>
-      <Grid className={classes.buttons}>
+      <Grid container className={classes.buttons} justify="center">
         <Button
           className={classes.openButton}
-          size='medium'
-          variant='contained'
-          color='primary'
+          size="medium"
+          variant="contained"
+          color="primary"
         >
           Open
         </Button>
         <Button
           className={classes.deleteButton}
-          size='medium'
-          variant='contained'
-          color='secondary'
+          size="medium"
+          variant="contained"
+          color="secondary"
           onClick={onClickOpenDelete}
         >
           Delete
