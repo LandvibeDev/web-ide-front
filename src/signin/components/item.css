@@ -1,0 +1,67 @@
+.item-align {
+  border: 1px solid lightslategray;
+  width: 450px;
+  text-align: center;
+  margin-left: 1000px;
+  height: 450px;
+  margin-top: 150px;
+}
+
+.space1 {
+  margin-top: 30px;
+}
+
+.space2 {
+  margin-top: 50px;
+}
+
+.githublogin {
+  padding: 0px !important;
+  border: none !important;
+}
+
+.termandcondition {
+  border: 1px solid lightgray;
+  float: right;
+  margin-top: 10px;
+  width: 400px;
+  height: 100px;
+}
+
+.line {
+  margin-top: 30px;
+  border-bottom: 1px solid lightslategray;
+  margin-bottom: 80px;
+}
+
+.main-logo {
+  float: left;
+  font-size: 50px;
+  margin-left: 400px;
+  margin-top: 100px;
+  font-weight: bold;
+}
+
+.attribute {
+  margin: 20px;
+  font-size: 20px;
+  float: left;
+  width: 100px;
+  margin-right: 100px;
+}
+
+.attribute-align {
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.logo{
+  float: left;
+  font-size: 40px;
+  margin-top: 50px;
+  width: 100%;
+  text-align: left;
+  text-indent: 120px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
