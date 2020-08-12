@@ -18,19 +18,16 @@ function SignUp(props) {
   const [isTermChecked, setTermChecked] = useState(false);
   const [termError, setTermError] = useState(false);
 
-  const userHandle = (v) => (e) => {
-    setUser({
-      ...user,
-      [v]: e.target.value,
-    });
+  const handleChangeUser = (e) => {
+    setUser({ [e.target.name]: e.target.value });
   };
 
-  const checkHandle = (e) => {
+  const handleChangeCheckbox = (e) => {
     setTermError(false);
     setTermChecked(e.target.checked);
-  }
+  };
 
-  const onSubmitSignup = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!isTermChecked) {
       return setTermError(true);
@@ -40,35 +37,35 @@ function SignUp(props) {
   return (
     <div>
       <div style={{ float: 'left' }}>
-        <form onSubmit={onSubmitSignup}>
+        <form onSubmit={handleSubmit}>
           <div className="attribute-align">
             <div className="attribute">닉네임</div>
             <TextField
-              name="user-nickname"
+              name="nickname"
               value={user.nickname}
               required
               style={{ margin: 5, width: 400 }}
               label="닉네임"
               variant="outlined"
-              onChange={userHandle('nickname')}
+              onChange={handleChangeUser}
             />
           </div>
           <div className="attribute-align">
             <div className="attribute">이메일</div>
             <TextField
-              name="user-email"
+              name="email"
               value={user.email}
               required
               style={{ margin: 5, width: 400 }}
               label="이메일"
               variant="outlined"
-              onChange={userHandle('email')}
+              onChange={handleChangeUser}
             />
           </div>
           <div className="attribute-align">
             <div className="attribute">소개</div>
             <TextField
-              name="user-bio"
+              name="bio"
               value={user.bio}
               multiline
               rows={3}
@@ -76,7 +73,7 @@ function SignUp(props) {
               style={{ margin: 5, width: 400 }}
               label="소개"
               variant="outlined"
-              onChange={userHandle('bio')}
+              onChange={handleChangeUser}
             />
           </div>
           <div className="attribute-align">
@@ -97,7 +94,7 @@ function SignUp(props) {
                       name="valid"
                       color="primary"
                       value={isTermChecked}
-                      onChange={checkHandle}
+                      onChange={handleChangeCheckbox}
                     >
                       동의하십니까?
                     </Checkbox>
