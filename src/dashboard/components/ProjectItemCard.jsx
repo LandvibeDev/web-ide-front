@@ -40,6 +40,7 @@ function DashBoardCard() {
 
   return (
     <Card className={classes.root}>
+<<<<<<< HEAD
       <CardContent variant={'elevation'} align="center">
         <Typography gutterBottom variant="h5" component="h2">
           project name
@@ -54,14 +55,36 @@ function DashBoardCard() {
           size="medium"
           variant="contained"
           color="primary"
+=======
+      <CardContent variant={'elevation'}>
+        <Typography gutterBottom variant='h5' component='h2'>
+          project name
+        </Typography>
+        <Typography variant='body2' color='textSecondary' component='h4'>
+          project dicription
+        </Typography>
+      </CardContent>
+      <Grid className={classes.buttons}>
+        <Button
+          className={classes.openButton}
+          size='medium'
+          variant='contained'
+          color='primary'
+>>>>>>> 1d4dafd6edfa0473d7200959c3e0fc89c80f860c
         >
           Open
         </Button>
         <Button
           className={classes.deleteButton}
+<<<<<<< HEAD
           size="medium"
           variant="contained"
           color="secondary"
+=======
+          size='medium'
+          variant='contained'
+          color='secondary'
+>>>>>>> 1d4dafd6edfa0473d7200959c3e0fc89c80f860c
           onClick={onClickOpenDelete}
         >
           Delete
