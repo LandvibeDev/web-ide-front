@@ -28,7 +28,7 @@ function SignUp(props) {
   const handleChangeCheck = (e) => {
     setTermError(false);
     setTermChecked(e.target.checked);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,7 +120,6 @@ function SignUp(props) {
               SIGN UP
             </Button>
           </div>
-
           <GoogleLogOut />
         </form>
       </div>

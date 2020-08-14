@@ -13,12 +13,12 @@ function SignIn(props) {
 
   const redirect_uri = 'http://localhost:3000/signup';
 
-  const onSuccessLogin = (res) => {
+  const handleSuccess = (res) => {
     console.log('[로그인 성공] 현재 사용자 : ', res);
     props.history.replace('/signup');
   };
 
-  const onFailureLogin = (err) => {
+  const handleFailure = (err) => {
     console.log('[로그인 실패] ', err);
   };
 
@@ -30,8 +30,8 @@ function SignIn(props) {
       <GoogleLogin
         clientId={googleClientId}
         buttonText="Sign In with Google"
-        onSuccess={onSuccessLogin}
-        onFailure={onFailureLogin}
+        onSuccess={handleSuccess}
+        onFailure={handleFailure}
         isSignedIn={true}
       />
       <div className="space1" />
@@ -41,8 +41,8 @@ function SignIn(props) {
           className="githublogin"
           clientId={githubClientId}
           redirectUri={redirect_uri}
-          onSuccess={onSuccessLogin}
-          onFailure={onFailureLogin}
+          onSuccess={handleSuccess}
+          onFailure={handleFailure}
           buttonText="Sign In with GitHub"
         >
           <GithubButton />
