@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextField,
   FormControlLabel,
@@ -6,6 +6,8 @@ import {
   Button,
 } from '@material-ui/core';
 import GoogleLogOut from './GoogleLogOut';
+import qs from 'qs';
+import axios from 'axios';
 import './item.css';
 
 function SignUp(props) {
