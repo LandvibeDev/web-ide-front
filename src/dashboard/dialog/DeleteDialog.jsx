@@ -21,7 +21,7 @@ function DeleteDialog(props) {
             Cancel
           </Button>
           <Button
-            onClick={props.onClickCloseDelete}
+            onClick={props.DeleteProject}
             color="secondary"
             autoFocus
             variant="contained"

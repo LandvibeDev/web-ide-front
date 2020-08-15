@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
     //	marginTop: 200,
   },
   paper: {
-    height: 500,
-    width: 1400,
+    height: '500px',
+    width: '90%',
     margin: 'auto',
     overflow: 'auto',
+    padding: '20px',
   },
 }));
 

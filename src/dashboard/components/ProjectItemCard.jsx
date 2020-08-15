@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   makeStyles,
   Card,
@@ -8,21 +9,22 @@ import {
   Button,
 } from '@material-ui/core';
 import DeleteDialog from '../dialog/DeleteDialog';
+import Api from '../APIs/WebIDE';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 10,
-    width: 250,
-    height: 200,
+    margin: '10px',
+    width: '250px',
+    height: '200px',
   },
   buttons: {
-    marginTop: 10,
+    marginTop: '10px',
   },
   openButton: {
-    marginRight: 5,
+    marginRight: '5px',
   },
   deleteButton: {
-    marginLeft: 5,
+    marginLeft: '5px',
   },
 }));
 
@@ -36,6 +38,22 @@ function DashBoardCard(props) {
 
   const onClickCloseDelete = () => {
     setIsOpenDelete(false);
+  };
+
+  const onClickDeleteProject = (pid) => {
+    setIsOpenDelete(false);
+
+    Api({
+      method: 'DELETE',
+      url: `/projects/${pid}`,
+    })
+      .then((res) => {
+        props.history.replace('/dashboard');
+        console.log('성공');
+      })
+      .catch((error) => {
+        console.log('실패');
+      });
   };
 
   return (
@@ -70,8 +88,9 @@ function DashBoardCard(props) {
       <DeleteDialog
         isOpenDelete={isOpenDelete}
         onClickCloseDelete={onClickCloseDelete}
+        DeleteProject={() => onClickDeleteProject(props.id)}
       />
     </Card>
   );
 }
-export default DashBoardCard;
+export default withRouter(DashBoardCard);

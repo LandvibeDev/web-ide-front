@@ -4,12 +4,12 @@ import CreateDialog from '../dialog/CreateDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 50,
-    marginBottom: 10,
+    marginTop: '50px',
+    marginBottom: '10px',
   },
   paper: {
-    height: 50,
-    width: 1400,
+    height: '50px',
+    width: '90%',
     margin: 'auto',
     overflow: 'auto',
   },
