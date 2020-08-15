@@ -55,7 +55,6 @@ function DashBoardHeader(props) {
       <CreateDialog
         isOpenCreate={isOpenCreate}
         onClickCloseCreate={onClickCloseCreate}
-        history={props.history}
       />
     </Box>
   );

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DashBoardCard() {
+function DashBoardCard(props) {
   const classes = useStyles();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
@@ -42,10 +42,10 @@ function DashBoardCard() {
     <Card className={classes.root}>
       <CardContent variant={'elevation'} align="center">
         <Typography gutterBottom variant="h5" component="h2">
-          project name
+          {props.name}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="h4">
-          project discription
+          {props.description}
         </Typography>
       </CardContent>
       <Grid container className={classes.buttons} justify="center">
