@@ -45,7 +45,7 @@ function DashBoardCard() {
           project name
         </Typography>
         <Typography variant="body2" color="textSecondary" component="h4">
-          project dicription
+          project discription
         </Typography>
       </CardContent>
       <Grid container className={classes.buttons} justify="center">

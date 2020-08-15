@@ -35,7 +35,7 @@ function DashBoardHeader(props) {
         justify={'flex-start'}
         alignItems={'center'}
       >
-        <img src='' alt='logo' />
+        <img src="" alt="logo" />
       </Grid>
       <Grid
         className={classes.paper}
@@ -44,9 +44,9 @@ function DashBoardHeader(props) {
         alignItems={'center'}
       >
         <Button
-          size='medium'
-          variant='contained'
-          color='primary'
+          size="medium"
+          variant="contained"
+          color="primary"
           onClick={onClickCreate}
         >
           Create Project
@@ -55,6 +55,7 @@ function DashBoardHeader(props) {
       <CreateDialog
         isOpenCreate={isOpenCreate}
         onClickCloseCreate={onClickCloseCreate}
+        history={props.history}
       />
     </Box>
   );
