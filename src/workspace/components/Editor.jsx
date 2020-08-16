@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactPrismEditor from 'react-prism-editor';
-
+import { changeFileContents } from '../modules/reducers';
+import { useDispatch } from 'react-redux';
 import './font.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,21 +13,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Editor({ file }) {
+function Editor({ originFile, currentFile, saveFile }) {
   const classes = useStyles();
-  const [content, setContent] = useState(String(file.contents));
-
-  const saveContent = () => {
-    const data = document.querySelector('pre').innerText;
-    console.log(data);
-  };
+  const [originContents] = useState(String(originFile.contents));
+  const dispatch = useDispatch();
+  const onChangeFileContents = (file) => dispatch(changeFileContents(file));
 
   const handleKeyDown = useCallback((event) => {
     if (event.ctrlKey || event.metaKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {
         case 's':
           event.preventDefault();
-          saveContent();
+          const data = document.querySelector('pre').innerText;
+          saveFile(currentFile.id, data);
           break;
         default:
           break;
@@ -44,12 +43,18 @@ function Editor({ file }) {
 
   return (
     <div className={classes.editorBody}>
-      {file !== null && (
+      {currentFile !== null && (
         <ReactPrismEditor
           language="javascript"
           theme="default"
-          code={content}
+          code={currentFile.contents}
           lineNumber={true}
+          changeCode={(code) => {
+            onChangeFileContents({
+              id: originFile.id,
+              contents: code,
+            });
+          }}
         />
       )}
     </div>

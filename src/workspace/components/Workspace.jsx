@@ -27,6 +27,23 @@ function Workspace() {
   const openFiles = useSelector((state) => state.openFiles);
   const directoryId = useSelector((state) => state.directoryId);
 
+  const saveFile = (id, contents) => {
+    console.log(id);
+    console.log(contents);
+    fileAPIs
+      .put(`/file/${id}`, {
+        ...file,
+        contents: contents,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setFile(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   // 에디터에서 보여질 파일 조회
   const getFile = useCallback(async () => {
     try {
@@ -62,7 +79,15 @@ function Workspace() {
         </Grid>
       </Grid>
       <div className={classes.editor}>
-        {!loading && file !== null && <Editor file={file} />}
+        {!loading && file !== null && (
+          <Editor
+            originFile={file}
+            currentFile={
+              openFiles.filter((file) => file.id === currentFile.id)[0]
+            }
+            saveFile={saveFile}
+          />
+        )}
       </div>
     </div>
   );

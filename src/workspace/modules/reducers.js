@@ -1,6 +1,7 @@
 const SELECT_FILE = 'SELECT_FILE';
 const CLEAR_FILE = 'CLEAR_FILE';
 const SELECT_DIR = 'SELECT_DIR';
+const CHANGE_FILE_CONTENTS = 'CHANGE_FILE_CONTENTS';
 
 export const selectFile = (file) => ({
   type: SELECT_FILE,
@@ -10,12 +11,18 @@ export const selectFile = (file) => ({
 });
 export const clearFile = (id) => ({ type: CLEAR_FILE, id: id });
 export const selectDirectory = (id) => ({ type: SELECT_DIR, id: id });
+export const changeFileContents = (file) => ({
+  type: CHANGE_FILE_CONTENTS,
+  id: file.id,
+  contents: file.contents,
+});
 
 const initialState = {
   openFiles: [],
   currentFile: { id: null, name: null },
   directoryId: '1',
 };
+
 function reducers(state = initialState, action) {
   switch (action.type) {
     case SELECT_FILE:
@@ -71,6 +78,17 @@ function reducers(state = initialState, action) {
       return {
         ...state,
         directoryId: action.id,
+      };
+
+    case CHANGE_FILE_CONTENTS:
+      const changeOpenFiles = state.openFiles;
+      const idx = changeOpenFiles.findIndex((file) => file.id === action.id);
+      if (changeOpenFiles[idx].contents !== action.contents) {
+        changeOpenFiles[idx].contents = action.contents;
+      }
+      return {
+        ...state,
+        openFiles: changeOpenFiles,
       };
     default:
       return state;
