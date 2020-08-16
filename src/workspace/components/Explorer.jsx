@@ -37,7 +37,7 @@ function Explorer(props) {
 
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
-  const onSelectFile = (id, name) => dispatch(selectFile(id, name));
+  const onSelectFile = (file) => dispatch(selectFile(file));
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
 
   const setCurrentInfo = (e) => {
@@ -45,12 +45,12 @@ function Explorer(props) {
       fileAPIs
         .get(`/file/${e.id}`)
         .then((res) => {
-          onSelectFile(res.data.id, res.data.name); // 선택한 파일 editor에 보여주기 위해서 설정
+          onSelectFile(res.data); // 선택한 파일 editor에 보여주기 위해서 설정
           if (directoryId !== res.data.parentId)
             onSelectDirectory(res.data.parentId); // 선택한 파일의 상위 디렉토리정보를 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
         })
         .catch((error) => {
-          onSelectFile(e.id, e.name); // TODO : 여기 수정 필요
+          onSelectFile({ id: null, name: null, contents: null }); // TODO : 여기 수정 필요
           console.log(error);
         });
     }

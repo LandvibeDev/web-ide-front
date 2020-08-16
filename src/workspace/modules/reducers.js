@@ -2,10 +2,11 @@ const SELECT_FILE = 'SELECT_FILE';
 const CLEAR_FILE = 'CLEAR_FILE';
 const SELECT_DIR = 'SELECT_DIR';
 
-export const selectFile = (id, name) => ({
+export const selectFile = (file) => ({
   type: SELECT_FILE,
-  id: id,
-  name: name,
+  id: file.id,
+  name: file.name,
+  contents: file.contents,
 });
 export const clearFile = (id) => ({ type: CLEAR_FILE, id: id });
 export const selectDirectory = (id) => ({ type: SELECT_DIR, id: id });
@@ -22,7 +23,11 @@ function reducers(state = initialState, action) {
       if (
         state.openFiles.filter((file) => file.id === action.id).length === 0
       ) {
-        newArr = state.openFiles.concat({ name: action.name, id: action.id });
+        newArr = state.openFiles.concat({
+          name: action.name,
+          id: action.id,
+          contents: action.contents,
+        });
       }
       return {
         ...state,
