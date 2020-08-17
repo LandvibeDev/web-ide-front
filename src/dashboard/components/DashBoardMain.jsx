@@ -7,7 +7,7 @@ import Api from '../APIs/WebIDE';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    //	marginTop: 200,
+    marginTop: '0px',
   },
   paper: {
     height: '500px',
@@ -38,7 +38,7 @@ function DashBoardMain(props) {
 
   useEffect(() => {
     getProjectList();
-  }, []);
+  }, [props.history, props.location]);
 
   return (
     <div>
