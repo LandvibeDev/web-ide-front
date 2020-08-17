@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   TextField,
   FormControlLabel,
@@ -6,9 +6,13 @@ import {
   Button,
 } from '@material-ui/core';
 import GoogleLogOut from './GoogleLogOut';
-import qs from 'qs';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import './item.css';
+
+/*
+  jwt token 받아오기
+  받은 token이랑 user 정보 합쳐서 보내기
+*/
 
 function SignUp(props) {
   const [user, setUser] = useState({
@@ -129,4 +133,4 @@ function SignUp(props) {
   );
 }
 
-export default SignUp;
+export default withRouter(SignUp);
