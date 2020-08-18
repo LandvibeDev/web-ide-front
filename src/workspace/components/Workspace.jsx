@@ -28,15 +28,12 @@ function Workspace() {
   const directoryId = useSelector((state) => state.directoryId);
 
   const saveFile = (id, contents) => {
-    console.log(id);
-    console.log(contents);
     fileAPIs
       .put(`/file/${id}`, {
         ...file,
         contents: contents,
       })
       .then((res) => {
-        console.log(res.data);
         setFile(res.data);
       })
       .catch((e) => {

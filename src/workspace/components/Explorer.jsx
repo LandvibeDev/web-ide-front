@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { FileTree, FileTreeTab, CommandList } from '.';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,26 +15,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Explorer(props) {
+function Explorer({ files, getFiles }) {
   const classes = useStyles();
-  const [files, setFiles] = useState(null);
   const currentFile = useSelector((state) => state.currentFile);
   const directoryId = useSelector((state) => state.directoryId);
-
-  // 파일트리 전체 파일 조회
-  const getFiles = useCallback(async () => {
-    try {
-      const res = await fileAPIs.get('/files');
-      setFiles(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
-  useEffect(() => {
-    getFiles();
-  }, [getFiles]);
-
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
   const onSelectFile = (file) => dispatch(selectFile(file));

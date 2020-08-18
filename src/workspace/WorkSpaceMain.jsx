@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Header, Body } from './components';
+
+import fileAPIs from './APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -22,10 +24,26 @@ function WorkSpaceMain(props) {
     };
   }, []);
 
+  const [files, setFiles] = useState(null);
+
+  // 파일트리 전체 파일 조회
+  const getFiles = useCallback(async () => {
+    try {
+      const res = await fileAPIs.get('/files');
+      setFiles(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    getFiles();
+  }, [getFiles]);
+
   return (
     <div className={classes.root}>
-      <Header />
-      <Body />
+      <Header files={files} getFiles={getFiles} />
+      <Body files={files} getFiles={getFiles} />
     </div>
   );
 }

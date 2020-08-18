@@ -61,7 +61,7 @@
       "type": "file",
       "permission": 777,
       "parentId": 1,
-      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n"
+      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';ㅋㅋㅋㅋ\n"
     }
   ]
 }

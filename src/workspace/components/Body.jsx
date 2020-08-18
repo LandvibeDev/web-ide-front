@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Body(props) {
+function Body({ files, getFiles }) {
   const classes = useStyles();
   return (
     <Grid container className={classes.body}>
       <Grid item xs={2}>
         <div className={classes.explorer}>
-          <Explorer />
+          <Explorer files={files} getFiles={getFiles} />
         </div>
       </Grid>
       <Grid item xs={10} className={classes.mainSection}>

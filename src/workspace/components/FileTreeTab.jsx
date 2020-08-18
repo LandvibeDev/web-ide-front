@@ -19,17 +19,17 @@ function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
   const classes = useStyles();
 
   const handleFileTreeTabClick = (name) => {
-    if (name === 'New file') {
+    if (name === 'New File') {
       setFileType('file');
-    } else if (name === 'New folder') {
+    } else if (name === 'New Folder') {
       setFileType('directory');
     }
     setFileDialogOpen(true);
   };
 
   const handleFileDialogClose = () => {
-    setFileType(null);
     setFileDialogOpen(false);
+    setFileType(null);
   };
 
   const handleFileDialogSubmit = (value) => {
@@ -73,7 +73,7 @@ function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
           <MenuItem
             title={<AddIcon color="primary" />}
             handleItemClick={handleFileTreeTabClick}
-            MenuItems={[{ name: 'New file' }, { name: 'New folder' }]}
+            MenuItems={[{ name: 'New File' }, { name: 'New Folder' }]}
             type="fileTreeTab"
           />
         </Grid>
