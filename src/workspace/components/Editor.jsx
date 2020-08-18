@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactPrismEditor from 'react-prism-editor';
 import { changeFileContents } from '../modules/reducers';
@@ -15,23 +15,25 @@ const useStyles = makeStyles((theme) => ({
 
 function Editor({ originFile, currentFile, saveFile }) {
   const classes = useStyles();
-  const [originContents] = useState(String(originFile.contents));
   const dispatch = useDispatch();
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
 
-  const handleKeyDown = useCallback((event) => {
-    if (event.ctrlKey || event.metaKey) {
-      switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
-          event.preventDefault();
-          const data = document.querySelector('pre').innerText;
-          saveFile(currentFile.id, data);
-          break;
-        default:
-          break;
-      }
-    } else return;
-  }, []);
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+          case 's':
+            event.preventDefault();
+            const data = document.querySelector('pre').innerText;
+            saveFile(originFile.id, data);
+            break;
+          default:
+            break;
+        }
+      } else return;
+    },
+    [originFile, saveFile],
+  );
 
   useEffect(() => {
     const editor = document.querySelector('pre');
