@@ -40,28 +40,22 @@
   },
   "file": [
     {
-      "id": 3,
       "name": "test1.js",
-      "type": "file",
-      "permission": 777,
+      "id": 3,
       "parentId": 2,
-      "contents": "hello !! zzz\n헬로 \nhellow !~\n"
+      "contents": "hello !! zzz\n헬로 \nhellow !~g\n"
     },
     {
-      "id": 4,
       "name": "test2.js",
-      "type": "file",
-      "permission": 777,
+      "id": 4,
       "parentId": 2,
-      "contents": "test2.jszzzzzzzddd"
+      "contents": "test2.jss"
     },
     {
-      "id": 6,
       "name": "package.json",
-      "type": "file",
-      "permission": 777,
+      "id": 6,
       "parentId": 1,
-      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';ㅋㅋㅋㅋ\n"
+      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save file by menu barss\n"
     }
   ]
 }

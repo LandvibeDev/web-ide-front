@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectFile, selectDirectory } from '../modules/reducers';
 
 import { MenuItem } from '.';
-import { CreateFileDialog } from '../Dialog';
+import { CreateFileDialog, SaveAsDialog } from '../Dialog';
 
 import fileAPIs from '../APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
@@ -16,16 +16,20 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuBar({ files, getFiles }) {
   const classes = useStyles();
+  const openFiles = useSelector((state) => state.openFiles);
+  const currentFile = useSelector((state) => state.currentFile);
   const directoryId = useSelector((state) => state.directoryId);
 
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
+  const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
 
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
   const onSelectFile = (file) => dispatch(selectFile(file));
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
 
+  /////// new file , folder관련 함수
   const setCurrentInfo = (e) => {
     if (e.type === 'file') {
       fileAPIs
@@ -45,12 +49,10 @@ function MenuBar({ files, getFiles }) {
       if (directoryId !== e.id) onSelectDirectory(e.id); // 선택한 디렉토리정보 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
     }
   };
-
-  // file menu
   const handleFileDialogClose = () => {
+    setFileType(null);
     setFileDialogOpen(false);
   };
-
   const handleFileDialogSubmit = (value) => {
     fileAPIs
       .post('file', {
@@ -70,6 +72,44 @@ function MenuBar({ files, getFiles }) {
     setFileDialogOpen(false);
   };
 
+  // save file 관련 함수
+  const saveFile = (id, file) => {
+    // console.log(id, file);
+    fileAPIs
+      .put(`/file/${id}`, {
+        ...file,
+        contents: file.contents,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const handleSaveAsDialogClose = () => {
+    setSaveAsDialogOpen(false);
+  };
+  const handleSaveAsDialogSubmit = (value) => {
+    fileAPIs
+      .post('file', {
+        name: value,
+        type: 'file',
+        permission: 777,
+        parentId: directoryId,
+        contents: openFiles.filter((file) => file.id === currentFile.id)[0]
+          .contents,
+      })
+      .then((res) => {
+        setCurrentInfo(res.data);
+        getFiles();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setSaveAsDialogOpen(false);
+  };
+
   // control menu item
   const handleFileItemClick = (event) => {
     if (event === 'New File') {
@@ -78,6 +118,22 @@ function MenuBar({ files, getFiles }) {
     } else if (event === 'New Folder') {
       setFileType('directory');
       setFileDialogOpen(true);
+    } else if (event === 'Save') {
+      if (currentFile.id === null) {
+        alert('저장할 파일을 선택해주세요!');
+        return;
+      }
+      saveFile(
+        currentFile.id,
+        openFiles.filter((file) => file.id === currentFile.id)[0],
+      );
+    } else if (event === 'Save as') {
+      if (currentFile.id === null) {
+        alert('저장할 파일을 선택해주세요!');
+        return;
+      }
+      console.log(currentFile);
+      setSaveAsDialogOpen(true);
     }
   };
   const handleEditItemClick = (event) => {
@@ -89,12 +145,21 @@ function MenuBar({ files, getFiles }) {
 
   return (
     <div className={classes.root}>
-      <CreateFileDialog
-        open={fileDialogOpen}
-        handleClose={handleFileDialogClose}
-        handleSubmit={handleFileDialogSubmit}
-        type={fileType}
-      />
+      {fileType !== null && (
+        <CreateFileDialog
+          open={fileDialogOpen}
+          handleClose={handleFileDialogClose}
+          handleSubmit={handleFileDialogSubmit}
+          type={fileType}
+        />
+      )}
+      {saveAsDialogOpen && (
+        <SaveAsDialog
+          open={saveAsDialogOpen}
+          handleClose={handleSaveAsDialogClose}
+          handleSubmit={handleSaveAsDialogSubmit}
+        />
+      )}
       <MenuItem
         title={
           <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
