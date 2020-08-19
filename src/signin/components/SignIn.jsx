@@ -9,6 +9,10 @@ import axios from 'axios';
 import './item.css';
 
 function SignIn(props) {
+  const githubClientId = 'dbefa8a77a035ec6619e';
+  const redirect_uri = 'http://localhost:3000/signup';
+  const githubPostUri = 'http://github.com/login/oauth/access_token';
+
   // const handleSuccessGoogle = (res) => {
   //   console.log('[로그인 성공] 현재 사용자 : ', res);
   //   const googleToken = res.wc.access_token;
@@ -57,7 +61,7 @@ function SignIn(props) {
 
   return (
     <div>
-      <h2 style={{ marginTop: 60, marginBottom: 50 }}>Sign In</h2>
+      <h1 style={{ marginTop: 60, marginBottom: 50 }}>Sign In</h1>
       <div className="line" />
 
       <GoogleButton className="googlelogin" onClick={handleClick} />
