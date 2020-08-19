@@ -61,10 +61,10 @@ function SignIn(props) {
 
   return (
     <div>
-      <h1 style={{ marginTop: 60, marginBottom: 50 }}>Sign In</h1>
+      <h1 style={{ marginTop: 60, marginBottom: 70 }}>Sign In</h1>
       <div className="line" />
 
-      <GoogleButton className="googlelogin" onClick={handleClick} />
+      <GoogleButton type="dark" className="googlelogin" onClick={handleClick} />
       {/* <GoogleLogin
         clientId={googleClientId}
         buttonText="Sign In with Google"
