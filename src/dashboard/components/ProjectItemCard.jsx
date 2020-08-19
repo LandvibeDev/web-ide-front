@@ -17,7 +17,7 @@ import {
   InputLabel,
 } from '@material-ui/core';
 import DeleteDialog from '../dialog/DeleteDialog';
-import Api from '../APIs/WebIDE';
+import Api from '../../common/APIs/WebIDE';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -11,7 +11,7 @@ import {
   DialogActions,
   Button,
 } from '@material-ui/core';
-import Api from '../APIs/WebIDE';
+import Api from '../../common/APIs/WebIDE';
 
 function CreateDialog(props) {
   const [projectValues, setProjectValues] = useState({
@@ -35,8 +35,8 @@ function CreateDialog(props) {
       },
       data: projectValues,
     })
-      .then((res) => {
-        props.history.push(`/workspace/${res.data.id}`);
+      .then(({ data }) => {
+        props.history.push(`/workspace/${data.id}`);
         console.log('성공');
       })
       .catch((error) => {

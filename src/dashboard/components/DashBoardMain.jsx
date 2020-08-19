@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { makeStyles, Grid, Paper, Box } from '@material-ui/core';
 import ProjectItemCard from './ProjectItemCard';
 import DashBoardHeader from './DashBoardHeader';
-import Api from '../APIs/WebIDE';
+import Api from '../../common/APIs/WebIDE';
 
 const useStyles = makeStyles((theme) => ({
   root: {
