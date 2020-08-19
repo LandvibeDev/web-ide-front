@@ -15,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
   popper: {
     zIndex: 1000,
   },
+  fileTree: {
+    padding: '5px 15px',
+    margin: '0px',
+    border: '1px solid rgba(0, 0, 0, 0.23)',
+  },
 }));
 
 function MenuItem(props) {
@@ -44,23 +49,14 @@ function MenuItem(props) {
     setOpen(false);
   };
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
-
   return (
-    <div className={classes.menu}>
+    <div className={props.type === 'menuBar' ? classes.menu : null}>
       <Button
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
+        className={props.type === 'fileTreeTab' ? classes.fileTree : null}
       >
         {props.title}
       </Button>
@@ -91,7 +87,10 @@ function MenuItem(props) {
                 >
                   {props.MenuItems.map((menu, index) => {
                     return (
-                      <MenuItemUI onClick={handleClick} key={index}>
+                      <MenuItemUI
+                        onClick={(e) => handleClick(menu.name)}
+                        key={index}
+                      >
                         {menu.name}
                       </MenuItemUI>
                     );

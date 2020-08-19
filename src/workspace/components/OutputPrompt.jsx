@@ -13,17 +13,16 @@ function OutputPrompt({ data }) {
       }}
       id="logDiv"
     >
-      {data !== ''
-        ? data.split('\n').map((line, index) => {
-            if (index === 0) return null;
-            return (
-              <Fragment key={index}>
-                <span>{line}</span>
-                <br />
-              </Fragment>
-            );
-          })
-        : null}
+      {data !== '' &&
+        data.split('\n').map((line, index) => {
+          if (index === 0) return null;
+          return (
+            <Fragment key={index}>
+              <span>{line}</span>
+              <br />
+            </Fragment>
+          );
+        })}
     </div>
   );
 }
