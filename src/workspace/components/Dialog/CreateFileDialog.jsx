@@ -15,21 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateFileDialog({ open, handleClose, handleSubmit }) {
+function CreateFileDialog({ type, open, handleClose, handleSubmit }) {
   const classes = useStyles();
-  const [value, setValue] = useState('');
+  const [fileName, setFileName] = useState('');
   const [message, setMessage] = useState('');
-
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setFileName(e.target.value);
   };
   const handleOk = () => {
-    if (value === '') {
+    if (fileName === '') {
       setMessage('값을 입력해주세요.');
     } else {
       // TODO: 파일 이름 .js 처리 필요 ?
-      handleSubmit(value);
-      setValue('');
+      handleSubmit(fileName);
+      setFileName('');
     }
   };
 
@@ -39,10 +38,20 @@ function CreateFileDialog({ open, handleClose, handleSubmit }) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Save as</DialogTitle>
+      <DialogTitle id="form-dialog-title">
+        {type === 'saveas'
+          ? 'Save as'
+          : type === 'file'
+          ? 'New file'
+          : 'New folder'}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          새로 저장할 파일의 이름을 입력해주세요.
+          {type === 'saveas'
+            ? '새로 저장할 파일의 이름을 입력해주세요.'
+            : `새로 만들 ${
+                type === 'file' ? '파일' : '폴더'
+              }의 이름을 입력해주세요.`}
         </DialogContentText>
         <TextField
           autoFocus
@@ -51,7 +60,7 @@ function CreateFileDialog({ open, handleClose, handleSubmit }) {
           type="text"
           fullWidth
           onChange={handleChange}
-          value={value}
+          value={fileName}
           onKeyDown={(e) => {
             if (e.keyCode === 13) handleOk();
           }}

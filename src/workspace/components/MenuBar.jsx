@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectFile, selectDirectory } from '../modules/reducers';
 
 import { MenuItem } from '.';
-import { CreateFileDialog, SaveAsDialog } from '../Dialog';
+import { CreateFileDialog } from './Dialog';
 
 import fileAPIs from '../APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
@@ -20,10 +20,8 @@ function MenuBar({ files, getFiles }) {
   const currentFile = useSelector((state) => state.currentFile);
   const directoryId = useSelector((state) => state.directoryId);
 
-  const [fileDialogOpen, setFileDialogOpen] = useState(false);
+  const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
-  const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
-
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
   const onSelectFile = (file) => dispatch(selectFile(file));
@@ -53,14 +51,17 @@ function MenuBar({ files, getFiles }) {
     setFileType(null);
     setFileDialogOpen(false);
   };
-  const handleFileDialogSubmit = (value) => {
+  const handleFileDialogSubmit = (fileName) => {
     fileAPIs
       .post('file', {
-        name: value,
-        type: fileType,
+        name: fileName,
+        type: fileType === 'saveas' ? 'file' : fileType,
         permission: 777,
         parentId: directoryId,
-        contents: '',
+        contents:
+          fileType === 'saveas'
+            ? openFiles.filter((file) => file.id === currentFile.id)[0].contents
+            : '',
       })
       .then((res) => {
         setCurrentInfo(res.data);
@@ -87,28 +88,6 @@ function MenuBar({ files, getFiles }) {
         console.log(e);
       });
   };
-  const handleSaveAsDialogClose = () => {
-    setSaveAsDialogOpen(false);
-  };
-  const handleSaveAsDialogSubmit = (value) => {
-    fileAPIs
-      .post('file', {
-        name: value,
-        type: 'file',
-        permission: 777,
-        parentId: directoryId,
-        contents: openFiles.filter((file) => file.id === currentFile.id)[0]
-          .contents,
-      })
-      .then((res) => {
-        setCurrentInfo(res.data);
-        getFiles();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setSaveAsDialogOpen(false);
-  };
 
   // control menu item
   const handleFileItemClick = (event) => {
@@ -132,8 +111,8 @@ function MenuBar({ files, getFiles }) {
         alert('저장할 파일을 선택해주세요!');
         return;
       }
-      console.log(currentFile);
-      setSaveAsDialogOpen(true);
+      setFileType('saveas');
+      setFileDialogOpen(true);
     }
   };
   const handleEditItemClick = (event) => {
@@ -147,17 +126,10 @@ function MenuBar({ files, getFiles }) {
     <div className={classes.root}>
       {fileType !== null && (
         <CreateFileDialog
-          open={fileDialogOpen}
+          open={isFileDialogOpen}
           handleClose={handleFileDialogClose}
           handleSubmit={handleFileDialogSubmit}
           type={fileType}
-        />
-      )}
-      {saveAsDialogOpen && (
-        <SaveAsDialog
-          open={saveAsDialogOpen}
-          handleClose={handleSaveAsDialogClose}
-          handleSubmit={handleSaveAsDialogSubmit}
         />
       )}
       <MenuItem

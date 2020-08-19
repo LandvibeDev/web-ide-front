@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { MenuItem } from '.';
-import { CreateFileDialog } from '../Dialog';
+import { CreateFileDialog } from './Dialog';
 
 import fileAPIs from '../APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
-  const [fileDialogOpen, setFileDialogOpen] = useState(false);
+  const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
   const classes = useStyles();
 
@@ -56,7 +56,7 @@ function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
     <div>
       {fileType !== null && (
         <CreateFileDialog
-          open={fileDialogOpen}
+          open={isFileDialogOpen}
           handleClose={handleFileDialogClose}
           handleSubmit={handleFileDialogSubmit}
           type={fileType}

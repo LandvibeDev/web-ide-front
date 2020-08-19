@@ -76,7 +76,7 @@ function Workspace() {
         </Grid>
       </Grid>
       <div className={classes.editor}>
-        {!loading && file !== null && (
+        {!loading && file !== null && openFiles.length !== 0 && (
           <Editor
             originFile={file}
             currentFile={

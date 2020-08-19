@@ -42,7 +42,6 @@
     {
       "name": "test1.js",
       "id": 3,
-      "parentId": 2,
       "contents": "hello !! zzz\n헬로 \nhellow !~g\n"
     },
     {
