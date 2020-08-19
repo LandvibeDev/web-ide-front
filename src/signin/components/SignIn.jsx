@@ -9,13 +9,6 @@ import axios from 'axios';
 import './item.css';
 
 function SignIn(props) {
-  const googleClientId =
-    '205753666169-9rf5ok863ug67g84juf3ngb1vr6ibgae.apps.googleusercontent.com';
-  const githubClientId = 'dbefa8a77a035ec6619e';
-  const githubClientSecret = 'd716e848f76ff25b776c70b151f93f29e0665bc7';
-  const redirect_uri = 'http://localhost:3000/signup';
-  const githubPostUri = 'http://github.com/login/oauth/access_token';
-
   // const handleSuccessGoogle = (res) => {
   //   console.log('[로그인 성공] 현재 사용자 : ', res);
   //   const googleToken = res.wc.access_token;
