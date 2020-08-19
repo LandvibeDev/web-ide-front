@@ -5,7 +5,7 @@ import '../components/item.css';
 function SignInView(props) {
   return (
     <div>
-      <div className="main-logo">LOGO</div>
+      <div className="main-logo">울림 IDE</div>
       <div>
         <div className="item-align">
           <SignIn />
