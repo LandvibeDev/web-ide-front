@@ -11,20 +11,20 @@ function DeleteDialog(props) {
   return (
     <Grid>
       <Dialog open={props.isOpenDelete} onClose={props.onClickCloseDelete}>
-        <DialogTitle id='alert-dialog-title'>{'삭제하시겠습니까?'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'삭제하시겠습니까?'}</DialogTitle>
         <DialogActions>
           <Button
             onClick={props.onClickCloseDelete}
-            color='primary'
-            variant='contained'
+            color="primary"
+            variant="contained"
           >
             Cancel
           </Button>
           <Button
-            onClick={props.onClickCloseDelete}
-            color='secondary'
+            onClick={props.DeleteProject}
+            color="secondary"
             autoFocus
-            variant='contained'
+            variant="contained"
           >
             OK
           </Button>

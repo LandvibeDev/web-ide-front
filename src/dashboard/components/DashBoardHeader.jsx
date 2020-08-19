@@ -4,12 +4,12 @@ import CreateDialog from '../dialog/CreateDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 50,
-    marginBottom: 10,
+    marginTop: '50px',
+    marginBottom: '10px',
   },
   paper: {
-    height: 50,
-    width: 1400,
+    height: '50px',
+    width: '90%',
     margin: 'auto',
     overflow: 'auto',
   },
@@ -35,7 +35,7 @@ function DashBoardHeader(props) {
         justify={'flex-start'}
         alignItems={'center'}
       >
-        <img src='' alt='logo' />
+        <img src="" alt="logo" />
       </Grid>
       <Grid
         className={classes.paper}
@@ -44,9 +44,9 @@ function DashBoardHeader(props) {
         alignItems={'center'}
       >
         <Button
-          size='medium'
-          variant='contained'
-          color='primary'
+          size="medium"
+          variant="contained"
+          color="primary"
           onClick={onClickCreate}
         >
           Create Project
