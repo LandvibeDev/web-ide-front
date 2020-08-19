@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactPrismEditor from 'react-prism-editor';
 import { changeFileContents } from '../modules/reducers';
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Editor({ originFile, currentFile, saveFile }) {
   const classes = useStyles();
+  const anchorRef = useRef();
   const dispatch = useDispatch();
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
 
@@ -37,15 +38,29 @@ function Editor({ originFile, currentFile, saveFile }) {
   );
 
   useEffect(() => {
+    const current = document.querySelector('pre');
+    anchorRef.current = current;
+  });
+  useEffect(() => {
     const editor = document.querySelector('pre');
     editor.addEventListener('keydown', handleKeyDown);
+    editor.addEventListener('focus', () => {
+      const value = editor.value;
+      editor.value = '';
+      editor.value = value;
+    });
     return () => {
       editor.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
 
+  const handleFocus = () => {
+    anchorRef.current.focus();
+    // TODO : 제일 마지막 부분 focus되게 하기
+  };
+
   return (
-    <div className={classes.editorBody}>
+    <div className={classes.editorBody} onClick={handleFocus}>
       {currentFile !== null && (
         <ReactPrismEditor
           language="javascript"
