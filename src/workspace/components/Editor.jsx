@@ -19,6 +19,7 @@ function Editor({ originFile, currentFile, saveFile }) {
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
 
   const handleKeyDown = useCallback(
+    // TODO : 키보드로 에디터 제어
     (event) => {
       if (event.ctrlKey || event.metaKey) {
         switch (String.fromCharCode(event.which).toLowerCase()) {
