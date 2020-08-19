@@ -9,11 +9,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header(props) {
+function Header({ files, getFiles }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <MenuBar />
+      <MenuBar files={files} getFiles={getFiles} />
     </div>
   );
 }
