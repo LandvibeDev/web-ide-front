@@ -13,37 +13,22 @@ function SignIn(props) {
 
   const handleClickGoogle = (res) => {
     window.location.replace('http://localhost:8080/oauth2/authorize/google');
-      // 서버url({
-      //   method: 'get',
-      //   url: '',
-      //   data: jwtToken,
-      // })
-      //   .then((res) => {
-      //     console.log('토큰 수신 성공', res.data);
-      //     props.history.replace('/signup');
-      //   })
-      //   .catch((err) => {
-      //     console.log('토큰 수신 실패', err);
-      //   });
+    // 서버url({
+    //   method: 'get',
+    //   url: '',
+    //   data: accessToken,
+    // })
+    //   .then((res) => {
+    //     console.log('토큰 수신 성공', res.data);
+    //     window.localStorage.setItem('accessToken', accessToken);
+    //     회원가입인지 로그인인지 확인 후
+    //     로그인이면 props.history.replace('/dashboard');
+    //     회원가입이면 props.history.replace('/signup');
+    //   })
+    //   .catch((err) => {
+    //     console.log('토큰 수신 실패', err);
+    //   });
   };
-
-  // 로그인 플로우가 변경되어 필요없는 함수는 혹시나 수정될 경우에 대비하여 주석처리
-  // const handleSuccessGoogle = (res) => {
-  //   console.log('[로그인 성공] 현재 사용자 : ', res);
-  //   const googleToken = res.wc.access_token;
-  //   // 서버url({
-  //   //   method: 'post',
-  //   //   url: '/signin/google',
-  //   //   data: googleToken,
-  //   // })
-  //   //   .then((res) => {
-  //   //     console.log('토큰 전송 성공', res.data);
-  //   //   })
-  //   //   .catch((err) => {
-  //   //     console.log('토큰 전송 실패', err);
-  //   //   });
-  //   props.history.replace('/signup');
-  // };
 
   const handleSuccessGitHub = (res) => {
     /* 깃헙에서 accesstoken 받아와서 서버 /signin/github으로 전송 
@@ -76,14 +61,11 @@ function SignIn(props) {
       <h1 style={{ marginTop: 60, marginBottom: 70 }}>Sign In</h1>
       <div className="line" />
 
-      <GoogleButton type="dark" className="googlelogin" onClick={handleClickGoogle} />
-      {/* <GoogleLogin
-        clientId={googleClientId}
-        buttonText="Sign In with Google"
-        onSuccess={handleSuccessGoogle}
-        onFailure={handleFailure}
-        isSignedIn={true}
-      /> */}
+      <GoogleButton
+        type="dark"
+        className="googlelogin"
+        onClick={handleClickGoogle}
+      />
       <div className="space1" />
       <Grid>
         <GitHubLogin

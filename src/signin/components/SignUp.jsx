@@ -5,7 +5,6 @@ import {
   Checkbox,
   Button,
 } from '@material-ui/core';
-import GoogleLogOut from './GoogleLogOut';
 import { withRouter } from 'react-router-dom';
 import './item.css';
 
@@ -15,6 +14,7 @@ import './item.css';
 */
 
 function SignUp(props) {
+  //const accessToken = window.localStorage.getItem(accessToken);
   const [user, setUser] = useState({
     nickname: '',
     email: '',
@@ -41,6 +41,18 @@ function SignUp(props) {
     if (!isTermChecked) {
       return setTermError(true);
     }
+    // 서버url({
+    //   method: 'post',
+    //   url: '',
+    //   data: { accessToken, user },
+    // })
+    //   .then((res) => {
+    //     // 서버에서 검증
+    //     props.history.replace('/dashboard');
+    //   })
+    //   .catch((err) => {
+    //     // 에러코드 처리
+    //   });
   };
 
   return (
@@ -126,7 +138,6 @@ function SignUp(props) {
               SIGN UP
             </Button>
           </div>
-          <GoogleLogOut />
         </form>
       </div>
     </div>
