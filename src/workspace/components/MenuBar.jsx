@@ -24,6 +24,7 @@ function MenuBar({ files, getFiles }) {
   const openFiles = useSelector((state) => state.openFiles);
   const currentFile = useSelector((state) => state.currentFile);
   const directoryId = useSelector((state) => state.directoryId);
+  const selectedId = useSelector((state) => state.selectedId);
 
   const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
@@ -139,9 +140,13 @@ function MenuBar({ files, getFiles }) {
       setFileType('saveas');
       setFileDialogOpen(true);
     } else if (event === 'Delete') {
-      console.log(currentFile);
-      console.log(directoryId);
-      // deleteFile(currentFile.id);
+      if (selectedId === 1) {
+        alert('프로젝트 폴더는 삭제할 수 없습니다.');
+        return;
+      } else if (directoryId === selectedId) {
+        alert('폴더 삭제'); // TODO : 폴더 삭제 예외 처리 및 구현
+        return;
+      } else deleteFile(selectedId);
     }
   };
   const handleEditItemClick = (event) => {
