@@ -6,7 +6,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useDispatch } from 'react-redux';
-import { selectFile, selectDirectory, clearFile } from '../modules/reducers';
+import {
+  selectFile,
+  selectDirectory,
+  clearFile,
+  setSelectedId,
+} from '../modules/reducers';
 import fileAPIs from '../APIs/fileAPIs';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +34,7 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
   const onSelectFile = (file) => dispatch(selectFile(file));
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
   const onClearFile = (id) => dispatch(clearFile(id));
+  const onSetSelectedId = (id) => dispatch(setSelectedId(id));
 
   // openfiletab으로 바꾸면 workspace로 값 보내서 에디터 내용 변경
   // filetree로 바꾸면 workspace에서 받아온 값 사용
@@ -38,6 +44,7 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
       .then((res) => {
         setFile(res.data);
         onSelectFile(res.data); // 선택한 파일 editor에 보여주기 위해서 설정
+        onSetSelectedId(res.data.id);
         if (directoryId !== res.data.parentId)
           onSelectDirectory(res.data.parentId); // 선택한 파일의 상위 디렉토리정보를 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
       })

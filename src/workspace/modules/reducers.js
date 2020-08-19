@@ -2,6 +2,7 @@ const SELECT_FILE = 'SELECT_FILE';
 const CLEAR_FILE = 'CLEAR_FILE';
 const SELECT_DIR = 'SELECT_DIR';
 const CHANGE_FILE_CONTENTS = 'CHANGE_FILE_CONTENTS';
+const SET_SELECTED_ID = 'SET_SELECTED_ID';
 
 export const selectFile = (file) => ({
   type: SELECT_FILE,
@@ -10,17 +11,22 @@ export const selectFile = (file) => ({
   contents: file.contents,
 });
 export const clearFile = (id) => ({ type: CLEAR_FILE, id: id });
-export const selectDirectory = (id) => ({ type: SELECT_DIR, id: id });
+export const selectDirectory = (id) => ({
+  type: SELECT_DIR,
+  id: id,
+});
 export const changeFileContents = (file) => ({
   type: CHANGE_FILE_CONTENTS,
   id: file.id,
   contents: file.contents,
 });
+export const setSelectedId = (id) => ({ type: SET_SELECTED_ID, id: id });
 
 const initialState = {
   openFiles: [],
   currentFile: { id: null, name: null },
   directoryId: '1',
+  selectedId: 1,
 };
 
 function reducers(state = initialState, action) {
@@ -53,6 +59,7 @@ function reducers(state = initialState, action) {
           currentFile: { id: null, name: null },
           openFiles: newOpenFiles,
           directoryId: '1',
+          selectedId: 1,
         };
       } else {
         // 현재 보고있는 파일을 닫은경우
@@ -71,6 +78,7 @@ function reducers(state = initialState, action) {
               id: state.currentFile.id,
               name: state.currentFile.name,
             },
+            selectedId: state.currentFile.id,
           };
         }
       }
@@ -89,6 +97,11 @@ function reducers(state = initialState, action) {
       return {
         ...state,
         openFiles: changeOpenFiles,
+      };
+    case SET_SELECTED_ID:
+      return {
+        ...state,
+        selectedId: action.id,
       };
     default:
       return state;

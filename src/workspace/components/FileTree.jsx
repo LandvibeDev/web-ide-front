@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -6,6 +6,8 @@ import FolderIcon from '@material-ui/icons/Folder';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedId } from '../modules/reducers';
 
 const test = {
   id: '1',
@@ -57,26 +59,16 @@ const useStyles = makeStyles({
   },
 });
 
-function FileTree({ directoryId, setCurrentInfo, currentFile, files }) {
+function FileTree({ setCurrentInfo, files }) {
   const classes = useStyles();
-  const [selectedId, setSelectedId] = useState('1');
 
-  useEffect(() => {
-    if (currentFile.id === null) setSelectedId('1');
-  }, [currentFile]);
-
-  // 파일, 폴더 새로 생성됐을때 , openfiletab에서 현재와 다른 파일 tab 선택했을때 filetree select값 변경
-  useEffect(() => {
-    if (currentFile.id !== null && String(currentFile.id) !== selectedId) {
-      // 파일선택하다가 폴더 선택했을때 두개 select되는거 방지
-      if (String(directoryId) !== selectedId)
-        setSelectedId(String(currentFile.id));
-    }
-  }, [currentFile, selectedId, directoryId]);
+  const selectedId = useSelector((state) => state.selectedId);
+  const dispatch = useDispatch();
+  const onSetSelectedId = (id) => dispatch(setSelectedId(id));
 
   const handleClick = (e) => {
-    if (String(e.id) !== selectedId) {
-      setSelectedId(String(e.id));
+    if (e.id !== selectedId) {
+      onSetSelectedId(e.id);
       setCurrentInfo(e);
     }
   };
@@ -107,7 +99,7 @@ function FileTree({ directoryId, setCurrentInfo, currentFile, files }) {
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpanded={['1']}
-      selected={selectedId}
+      selected={String(selectedId)}
       defaultExpandIcon={<ChevronRightIcon />}
     >
       {files !== null ? renderTree(files) : renderTree(test)}

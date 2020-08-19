@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFile, selectDirectory, clearFile } from '../modules/reducers';
+import {
+  selectFile,
+  selectDirectory,
+  clearFile,
+  setSelectedId,
+} from '../modules/reducers';
 
 import { MenuItem } from '.';
 import { CreateFileDialog } from './Dialog';
@@ -28,6 +33,7 @@ function MenuBar({ files, getFiles }) {
   const onSelectFile = (file) => dispatch(selectFile(file));
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
   const onClearFile = (id) => dispatch(clearFile(id));
+  const onSetSelectedId = (id) => dispatch(setSelectedId(id));
 
   /////// new file , folder관련 함수
   const setCurrentInfo = (e) => {
@@ -36,6 +42,7 @@ function MenuBar({ files, getFiles }) {
         .get(`/file/${e.id}`)
         .then((res) => {
           onSelectFile(res.data); // 선택한 파일 editor에 보여주기 위해서 설정
+          onSetSelectedId(res.data.id);
           if (directoryId !== res.data.parentId)
             onSelectDirectory(res.data.parentId); // 선택한 파일의 상위 디렉토리정보를 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
         })
@@ -47,6 +54,7 @@ function MenuBar({ files, getFiles }) {
     if (e.type === 'directory' || String(e.id) === '1') {
       // 최상위프로젝트는 directory지정안되서 1로 확인
       if (directoryId !== e.id) onSelectDirectory(e.id); // 선택한 디렉토리정보 저장. 이 정보로 파일,폴더 생성할때 parentId 지정
+      onSetSelectedId(e.id);
     }
   };
   const handleFileDialogClose = () => {
@@ -114,23 +122,26 @@ function MenuBar({ files, getFiles }) {
       setFileDialogOpen(true);
     } else if (event === 'File Upload') {
       // TODO : file upload
-    } else {
-      // 파일이 선택되어야 하는 기능 미리 에러 처리
+    } else if (event === 'Save') {
       if (currentFile === undefined || currentFile.id === null) {
         alert('파일을 선택해주세요!');
         return;
       }
-      if (event === 'Save') {
-        saveFile(
-          currentFile.id,
-          openFiles.filter((file) => file.id === currentFile.id)[0],
-        );
-      } else if (event === 'Save as') {
-        setFileType('saveas');
-        setFileDialogOpen(true);
-      } else if (event === 'Delete') {
-        deleteFile(currentFile.id);
+      saveFile(
+        currentFile.id,
+        openFiles.filter((file) => file.id === currentFile.id)[0],
+      );
+    } else if (event === 'Save as') {
+      if (currentFile === undefined || currentFile.id === null) {
+        alert('파일을 선택해주세요!');
+        return;
       }
+      setFileType('saveas');
+      setFileDialogOpen(true);
+    } else if (event === 'Delete') {
+      console.log(currentFile);
+      console.log(directoryId);
+      // deleteFile(currentFile.id);
     }
   };
   const handleEditItemClick = (event) => {
