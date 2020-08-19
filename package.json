@@ -16,6 +16,7 @@
     "react-dom": "^16.13.1",
     "react-github-login": "^1.0.3",
     "react-github-login-button": "^1.0.1",
+    "react-google-button": "^0.7.1",
     "react-google-login": "^5.1.21",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
