@@ -1,17 +1,15 @@
 import React from 'react';
-import { GoogleLogin } from 'react-google-login';
 import GitHubLogin from 'react-github-login';
 import { Grid } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import GithubButton from 'react-github-login-button';
 import GoogleButton from 'react-google-button';
-import axios from 'axios';
 import './item.css';
 
 function SignIn(props) {
   const githubClientId = 'dbefa8a77a035ec6619e';
   const redirect_uri = 'http://localhost:3000/signup';
-  const githubPostUri = 'http://github.com/login/oauth/access_token';
+  //const githubPostUri = 'http://github.com/login/oauth/access_token';
 
   // const handleSuccessGoogle = (res) => {
   //   console.log('[로그인 성공] 현재 사용자 : ', res);
