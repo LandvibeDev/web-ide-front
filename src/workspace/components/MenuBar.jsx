@@ -7,6 +7,7 @@ import {
   selectDirectory,
   clearFile,
   setSelectedId,
+  changeFileName,
 } from '../modules/reducers';
 
 import { MenuItem } from '.';
@@ -35,6 +36,8 @@ function MenuBar({ files, getFiles }) {
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
   const onClearFile = (id) => dispatch(clearFile(id));
   const onSetSelectedId = (id) => dispatch(setSelectedId(id));
+  const onChangeFileName = (id, fileName) =>
+    dispatch(changeFileName(id, fileName));
 
   /////// new file , folder관련 함수
   const setCurrentInfo = (e) => {
@@ -63,24 +66,43 @@ function MenuBar({ files, getFiles }) {
     setFileDialogOpen(false);
   };
   const handleFileDialogSubmit = (fileName) => {
-    fileAPIs
-      .post('file', {
-        name: fileName,
-        type: fileType === 'saveas' ? 'file' : fileType,
-        permission: 777,
-        parentId: directoryId,
-        contents:
-          fileType === 'saveas'
-            ? openFiles.filter((file) => file.id === currentFile.id)[0].contents
-            : '',
-      })
-      .then((res) => {
-        setCurrentInfo(res.data);
-        getFiles();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const postObj = {
+      name: fileName,
+      type: fileType === 'saveas' ? 'file' : fileType,
+      permission: 777,
+      parentId: directoryId,
+      contents:
+        fileType === 'saveas'
+          ? openFiles.filter((file) => file.id === currentFile.id)[0].contents
+          : '',
+    };
+    if (fileType === 'directory') delete postObj.contents; // 폴더는 contents가 없음
+    const putObj = {
+      name: fileName,
+    };
+
+    //dialog 여는 경우중 rename만 put으로 파일 이름만 변경이고, 나머지(new,saveas)는 post로 새 파일 생성
+    if (fileType === 'rename') {
+      fileAPIs
+        .put(`file/${selectedId}`, putObj)
+        .then((res) => {
+          getFiles();
+          onChangeFileName(selectedId, res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      fileAPIs
+        .post('file', postObj)
+        .then((res) => {
+          setCurrentInfo(res.data);
+          getFiles();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     setFileDialogOpen(false);
   };
 
@@ -90,6 +112,7 @@ function MenuBar({ files, getFiles }) {
     fileAPIs
       .put(`/file/${id}`, {
         ...file,
+        parentId: directoryId,
         contents: file.contents,
       })
       .then((res) => {
@@ -115,38 +138,57 @@ function MenuBar({ files, getFiles }) {
 
   // control menu item
   const handleFileItemClick = (event) => {
-    if (event === 'New File') {
-      setFileType('file');
-      setFileDialogOpen(true);
-    } else if (event === 'New Folder') {
-      setFileType('directory');
-      setFileDialogOpen(true);
-    } else if (event === 'File Upload') {
-      // TODO : file upload
-    } else if (event === 'Save') {
-      if (currentFile === undefined || currentFile.id === null) {
-        alert('파일을 선택해주세요!');
-        return;
-      }
-      saveFile(
-        currentFile.id,
-        openFiles.filter((file) => file.id === currentFile.id)[0],
-      );
-    } else if (event === 'Save as') {
-      if (currentFile === undefined || currentFile.id === null) {
-        alert('파일을 선택해주세요!');
-        return;
-      }
-      setFileType('saveas');
-      setFileDialogOpen(true);
-    } else if (event === 'Delete') {
-      if (selectedId === 1) {
-        alert('프로젝트 폴더는 삭제할 수 없습니다.');
-        return;
-      } else if (directoryId === selectedId) {
-        alert('폴더 삭제'); // TODO : 폴더 삭제 예외 처리 및 구현
-        return;
-      } else deleteFile(selectedId);
+    switch (event) {
+      case 'New File':
+        setFileType('file');
+        setFileDialogOpen(true);
+        break;
+
+      case 'New Folder':
+        setFileType('directory');
+        setFileDialogOpen(true);
+        break;
+
+      case 'Save':
+        if (currentFile === undefined || currentFile.id === null) {
+          alert('파일을 선택해주세요!');
+          return;
+        }
+        saveFile(
+          currentFile.id,
+          openFiles.filter((file) => file.id === currentFile.id)[0],
+        );
+        break;
+
+      case 'Save as':
+        if (currentFile === undefined || currentFile.id === null) {
+          alert('파일을 선택해주세요!');
+          return;
+        }
+        setFileType('saveas');
+        setFileDialogOpen(true);
+        break;
+
+      case 'Delete':
+        if (selectedId === 1) {
+          alert('프로젝트 폴더는 삭제할 수 없습니다.');
+          return;
+        } else if (directoryId === selectedId) {
+          alert('폴더 삭제'); // TODO : 폴더 삭제 예외 처리 및 구현
+          return;
+        } else deleteFile(selectedId);
+        break;
+
+      case 'Rename':
+        if (selectedId === 1) {
+          alert('프로젝트 폴더 정보는 대시보드에서 변경해주세요.');
+          return;
+        }
+        setFileType('rename');
+        setFileDialogOpen(true);
+        break;
+      default:
+        break;
     }
   };
   const handleEditItemClick = (event) => {

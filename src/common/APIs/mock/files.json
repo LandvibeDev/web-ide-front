@@ -42,19 +42,32 @@
     {
       "name": "test1.js",
       "id": 3,
-      "parentId": 2,
-      "contents": "hello !! zzz\n헬로 \nhellow !~g\n"
+      "contents": "hello !! zzz\n헬로 \nhellow !~g\n",
+      "parentId": 2
     },
     {
       "name": "test2.js",
       "id": 4,
+      "parentId": 2,
       "contents": "test2.jssss"
     },
     {
       "name": "package.json",
       "id": 6,
+      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save file by menu barss\n",
+      "parentId": 1
+    },
+    {
+      "id": 2,
+      "name": "src",
       "parentId": 1,
-      "contents": "import React, { useEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs from '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon from '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save file by menu barss\n"
+      "type": "directory"
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "name": "node_modules",
+      "type": "directory"
     }
   ]
 }

@@ -2,6 +2,7 @@ const SELECT_FILE = 'SELECT_FILE';
 const CLEAR_FILE = 'CLEAR_FILE';
 const SELECT_DIR = 'SELECT_DIR';
 const CHANGE_FILE_CONTENTS = 'CHANGE_FILE_CONTENTS';
+const CHANGE_FILE_NAME = 'CHANGE_FILE_NAME';
 const SET_SELECTED_ID = 'SET_SELECTED_ID';
 
 export const selectFile = (file) => ({
@@ -19,6 +20,11 @@ export const changeFileContents = (file) => ({
   type: CHANGE_FILE_CONTENTS,
   id: file.id,
   contents: file.contents,
+});
+export const changeFileName = (id, fileName) => ({
+  type: CHANGE_FILE_NAME,
+  id: id,
+  name: fileName,
 });
 export const setSelectedId = (id) => ({ type: SET_SELECTED_ID, id: id });
 
@@ -88,6 +94,7 @@ function reducers(state = initialState, action) {
         directoryId: action.id,
       };
 
+    // save로 file contents변경
     case CHANGE_FILE_CONTENTS:
       const changeOpenFiles = state.openFiles;
       const idx = changeOpenFiles.findIndex((file) => file.id === action.id);
@@ -97,6 +104,19 @@ function reducers(state = initialState, action) {
       return {
         ...state,
         openFiles: changeOpenFiles,
+      };
+    // rename으로 filename 변경
+    case CHANGE_FILE_NAME:
+      const changedNameOpenFiles = state.openFiles;
+      const nidx = changedNameOpenFiles.findIndex(
+        (file) => file.id === action.id,
+      );
+      if (changedNameOpenFiles[nidx].name !== action.name) {
+        changedNameOpenFiles[nidx].name = action.name;
+      }
+      return {
+        ...state,
+        openFiles: changedNameOpenFiles,
       };
     case SET_SELECTED_ID:
       return {
