@@ -185,7 +185,6 @@ function MenuBar({ files, getFiles }) {
           { name: 'Save as' },
           { name: 'Delete' },
           { name: 'Rename' },
-          { name: 'File Upload' },
         ]}
         type="menuBar"
       />
