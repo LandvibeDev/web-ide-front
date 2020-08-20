@@ -43,7 +43,7 @@ function SignUp(props) {
     }
     // 서버url({
     //   method: 'post',
-    //   url: '',
+    //   url: '/signup',
     //   data: { accessToken, user },
     // })
     //   .then((res) => {
