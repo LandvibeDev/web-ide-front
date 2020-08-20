@@ -66,6 +66,7 @@ function MenuBar({ files, getFiles }) {
     setFileDialogOpen(false);
   };
   const handleFileDialogSubmit = (fileName) => {
+    // TODO : 관리 (?) 필요..
     const postObj = {
       name: fileName,
       type: fileType === 'saveas' ? 'file' : fileType,
@@ -195,7 +196,13 @@ function MenuBar({ files, getFiles }) {
     console.log(event);
   };
   const handleProjectItemClick = (event) => {
-    console.log(event);
+    switch (event) {
+      case 'Refresh':
+        getFiles();
+        break;
+      default:
+        break;
+    }
   };
 
   return (

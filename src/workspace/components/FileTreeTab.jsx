@@ -78,7 +78,7 @@ function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
           />
         </Grid>
         <Grid item>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={(e) => getFiles()}>
             <RefreshIcon color="primary" />
           </Button>
         </Grid>
