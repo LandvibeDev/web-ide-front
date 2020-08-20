@@ -4,30 +4,26 @@ import { Grid } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import GithubButton from 'react-github-login-button';
 import GoogleButton from 'react-google-button';
+import qs from 'qs';
 import './item.css';
 
 function SignIn(props) {
   const githubClientId = 'dbefa8a77a035ec6619e';
-  const redirect_uri = 'http://localhost:3000/signup';
+  const google_uri = 'http://localhost:8080/oauth2/authorize/google';
+  const redirect_uri = 'http://localhost:3000/login';
+
   //const githubPostUri = 'http://github.com/login/oauth/access_token';
 
   const handleClickGoogle = (res) => {
-    window.location.replace('http://localhost:8080/oauth2/authorize/google');
-    // 서버url({
-    //   method: 'get',
-    //   url: '',
-    //   data: accessToken,
-    // })
-    //   .then((res) => {
-    //     console.log('토큰 수신 성공', res.data);
-    //     window.localStorage.setItem('accessToken', accessToken);
-    //     회원가입인지 로그인인지 확인 후
-    //     로그인이면 props.history.replace('/dashboard');
-    //     회원가입이면 props.history.replace('/signup');
-    //   })
-    //   .catch((err) => {
-    //     console.log('토큰 수신 실패', err);
-    //   });
+    window.location.replace(google_uri + '?redirect_uri=' + redirect_uri);
+    console.log(props);
+
+    // 이 부분은 리다이렉트용 페이지 /login에서 해야함 ? ?
+    const token = qs.parse(props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    console.log(token);
+    window.localStorage.setItem('token', token);
   };
 
   const handleSuccessGitHub = (res) => {
