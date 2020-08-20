@@ -48,7 +48,6 @@
     {
       "name": "test2.js",
       "id": 4,
-      "parentId": 2,
       "contents": "test2.jssss"
     },
     {

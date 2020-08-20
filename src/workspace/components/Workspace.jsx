@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector } from 'react-redux';
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   openFIleTab: {
     flexGrow: 1,

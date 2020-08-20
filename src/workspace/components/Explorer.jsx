@@ -8,7 +8,7 @@ import {
   selectDirectory,
   setSelectedId,
 } from '../modules/reducers';
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   fileTree: {
     height: '71vh',

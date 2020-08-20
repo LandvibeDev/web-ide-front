@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Header, Body } from './components';
 
-import fileAPIs from './APIs/fileAPIs';
+import fileAPIs from '../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',

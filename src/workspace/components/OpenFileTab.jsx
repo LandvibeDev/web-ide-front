@@ -12,7 +12,7 @@ import {
   clearFile,
   setSelectedId,
 } from '../modules/reducers';
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 
 const useStyles = makeStyles((theme) => ({
   tab: { textAlign: 'center', position: 'relative' },

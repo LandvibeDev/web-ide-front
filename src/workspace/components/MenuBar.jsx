@@ -12,7 +12,7 @@ import {
 import { MenuItem } from '.';
 import { CreateFileDialog } from './Dialog';
 
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

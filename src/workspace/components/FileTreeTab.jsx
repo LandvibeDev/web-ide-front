@@ -8,7 +8,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { MenuItem } from '.';
 import { CreateFileDialog } from './Dialog';
 
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {},
 }));
