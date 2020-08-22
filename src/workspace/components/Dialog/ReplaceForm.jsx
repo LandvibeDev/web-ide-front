@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setReplaceValue } from '../../modules/finder';
 
 // 바꾸기 부분
 const Replace = withStyles((theme) => ({
@@ -14,9 +17,21 @@ const Replace = withStyles((theme) => ({
 
 function ReplaceForm({ replaceRef, useStyles }) {
   const classes = useStyles();
-  const [replaceValue, setReplaceValue] = useState('');
+  const [replaceInput, setReplaceInput] = useState('');
+
+  const replaceValue = useSelector((state) => state.finder.replace);
+  const dispatch = useDispatch();
+  const onSetReplaceValue = (value) => dispatch(setReplaceValue(value));
+
+  useEffect(() => {
+    if (replaceInput !== replaceValue) {
+      setReplaceInput(replaceValue);
+    }
+  }, [replaceValue, replaceInput]);
+
   const handleChange = (e) => {
-    setReplaceValue(e.target.value);
+    setReplaceInput(e.target.value);
+    onSetReplaceValue(e.target.value);
   };
   return (
     <Replace>
@@ -25,7 +40,7 @@ function ReplaceForm({ replaceRef, useStyles }) {
           className={classes.input}
           inputRef={replaceRef}
           onChange={handleChange}
-          value={replaceValue}
+          value={replaceInput}
         />
         <Button className={classes.Btn} id="subBtn">
           변경

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -8,7 +8,7 @@ import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFindValue } from '../../modules/finder';
 //찾기부분
 const Find = withStyles((theme) => ({
@@ -22,9 +22,15 @@ function FindForm({ handleClose, findRef, useStyles }) {
   const classes = useStyles();
   const [findInput, setFindInput] = useState('');
 
+  const findValue = useSelector((state) => state.finder.find);
   const dispatch = useDispatch();
   const onSetFindValue = (value) => dispatch(setFindValue(value));
 
+  useEffect(() => {
+    if (findInput !== findValue) {
+      setFindInput(findValue);
+    }
+  }, [findValue, findInput]);
   const handleChange = (e) => {
     setFindInput(e.target.value);
     onSetFindValue(e.target.value);

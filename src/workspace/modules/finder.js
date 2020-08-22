@@ -20,7 +20,10 @@ function finder(state = initalState, action) {
         find: action.value,
       };
     case SET_REPLACE_VALUE:
-      return state;
+      return {
+        ...state,
+        replace: action.value,
+      };
     default:
       return state;
   }

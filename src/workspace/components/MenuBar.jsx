@@ -43,7 +43,6 @@ function MenuBar({ files, getFiles }) {
 
   useEffect(() => {
     if (currentFile === undefined || currentFile.id === null) {
-      // TODO : 다시 파일 열리면 검색값은 그대로 남아있게 처리
       setEditBarOpen(false);
     }
   }, [currentFile]);
