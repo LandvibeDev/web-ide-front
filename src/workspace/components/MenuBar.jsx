@@ -11,7 +11,7 @@ import {
 } from '../modules/reducers';
 
 import { MenuItem } from '.';
-import { CreateFileDialog } from './Dialog';
+import { CreateFileDialog, EditBar } from './Dialog';
 
 import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +29,8 @@ function MenuBar({ files, getFiles }) {
 
   const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
+  const [isEditBarOpen, setEditBarOpen] = useState(false);
+  const [editType, setEditType] = useState(null);
 
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
@@ -192,9 +194,28 @@ function MenuBar({ files, getFiles }) {
         break;
     }
   };
-  const handleEditItemClick = (event) => {
-    console.log(event);
+
+  /// Edit 관련
+  const handleEditBarClose = () => {
+    setEditType(null);
+    setEditBarOpen(false);
   };
+
+  const handleEditItemClick = (event) => {
+    switch (event) {
+      case 'Find':
+        setEditType('find');
+        setEditBarOpen(true);
+        break;
+      case 'Replace':
+        setEditType('replace');
+        setEditBarOpen(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleProjectItemClick = (event) => {
     switch (event) {
       case 'Refresh':
@@ -213,6 +234,13 @@ function MenuBar({ files, getFiles }) {
           handleClose={handleFileDialogClose}
           handleSubmit={handleFileDialogSubmit}
           type={fileType}
+        />
+      )}
+      {editType !== null && (
+        <EditBar
+          open={isEditBarOpen}
+          handleClose={handleEditBarClose}
+          type={editType}
         />
       )}
       <MenuItem
