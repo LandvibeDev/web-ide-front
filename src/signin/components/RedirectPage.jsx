@@ -5,7 +5,7 @@ function RedirectPage(props) {
   useEffect(() => {
     const query = qs.parse(props.location.search);
     const { token, email, registered, provider } = query;
-    console.log(props);
+    console.log(query);
     window.localStorage.setItem('token', token);
     if (registered) {
       props.history.replace('/dashboard');
