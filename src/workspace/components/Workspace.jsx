@@ -23,9 +23,9 @@ function Workspace() {
   const classes = useStyles();
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const currentFile = useSelector((state) => state.currentFile);
-  const openFiles = useSelector((state) => state.openFiles);
-  const directoryId = useSelector((state) => state.directoryId);
+  const currentFile = useSelector((state) => state.file.currentFile);
+  const openFiles = useSelector((state) => state.file.openFiles);
+  const directoryId = useSelector((state) => state.file.directoryId);
 
   const saveFile = (id, contents) => {
     fileAPIs

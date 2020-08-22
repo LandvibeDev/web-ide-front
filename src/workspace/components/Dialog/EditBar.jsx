@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-import CloseIcon from '@material-ui/icons/Close';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-
-import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/core/styles';
+
+import { FindForm, ReplaceForm } from './';
 
 //찾기, 바꾸기 모두 감싸는 부분
 const Accordion = withStyles({
@@ -31,22 +27,6 @@ const Accordion = withStyles({
   },
 })(MuiAccordion);
 
-//찾기부분
-const Find = withStyles((theme) => ({
-  root: {
-    backgroundColor: 'rgba(0, 0, 0, .03)',
-    padding: theme.spacing(1),
-  },
-}))(MuiAccordionDetails);
-
-// 바꾸기 부분
-const Replace = withStyles((theme) => ({
-  root: {
-    borderTop: '1px solid rgba(0, 0, 0, .125)',
-    padding: theme.spacing(1),
-  },
-}))(MuiAccordionDetails);
-
 const useStyles = makeStyles((theme) => ({
   bar: { top: 100, right: 50 },
   barDiv: {
@@ -63,17 +43,13 @@ const useStyles = makeStyles((theme) => ({
     },
     '&#close': {
       padding: 4,
-      position: 'absolute',
-      right: '8px',
+      marginLeft: 8,
     },
-    '&#arrow': {
+    '&#subBtn': {
       padding: 4,
     },
   },
 
-  accordianDiv: {
-    // padding: '4px 5px',
-  },
   input: {
     padding: '0px !important',
     marginRight: '8px',
@@ -84,17 +60,38 @@ const useStyles = makeStyles((theme) => ({
     '&.MuiInput-underline:before': {
       borderBottom: '0',
     },
+    '&.MuiInput-underline>input': {
+      padding: '6px 7px',
+    },
   },
 }));
 
 function EditBar({ open, handleClose, type }) {
   const classes = useStyles();
+  const findRef = useRef();
+  const replaceRef = useRef();
   const [expanded, setExpanded] = React.useState(
     type === 'find' ? false : true,
   );
   const toggle = () => {
     setExpanded((expanded) => !expanded);
   };
+
+  //EditBar 켜질때 input에 Focus 이동
+  useEffect(() => {
+    if (expanded) {
+      replaceRef.current.focus();
+    } else {
+      findRef.current.focus();
+    }
+  }, [expanded]);
+  useEffect(() => {
+    if (type === 'replace') {
+      setExpanded(true);
+      replaceRef.current.focus();
+    } else findRef.current.focus();
+  }, [type]);
+
   return (
     <>
       <Snackbar
@@ -108,30 +105,12 @@ function EditBar({ open, handleClose, type }) {
             {expanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
           </Button>
           <Accordion square expanded={expanded}>
-            <Find>
-              <div className={classes.accordianDiv}>
-                <Input className={classes.input} />
-                <div id="result" style={{ display: 'inline-block' }}>
-                  결과 없음
-                </div>
-              </div>
-              <Button className={classes.Btn} id="arrow">
-                <ArrowUpwardIcon />
-              </Button>
-              <Button className={classes.Btn} id="arrow">
-                <ArrowDownwardIcon />
-              </Button>
-              <Button onClick={handleClose} className={classes.Btn} id="close">
-                <CloseIcon />
-              </Button>
-            </Find>
-            <Replace>
-              <div className={classes.accordianDiv}>
-                <Input className={classes.input} />
-                <div style={{ display: 'inline-block' }}>변경</div>
-                &nbsp;<div style={{ display: 'inline-block' }}>전체 변경</div>
-              </div>
-            </Replace>
+            <FindForm
+              handleClose={handleClose}
+              findRef={findRef}
+              useStyles={useStyles}
+            />
+            <ReplaceForm replaceRef={replaceRef} useStyles={useStyles} />
           </Accordion>
         </div>
       </Snackbar>

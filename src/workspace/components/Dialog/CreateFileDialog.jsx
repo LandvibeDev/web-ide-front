@@ -35,7 +35,7 @@ function CreateFileDialog({ type, open, handleClose, handleSubmit }) {
   const classes = useStyles();
   const [fileName, setFileName] = useState('');
   const [message, setMessage] = useState('');
-  const selectedId = useSelector((state) => state.selectedId);
+  const selectedId = useSelector((state) => state.file.selectedId);
   const handleChange = (e) => {
     setFileName(e.target.value);
   };

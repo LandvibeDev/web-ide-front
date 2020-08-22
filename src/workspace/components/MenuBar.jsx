@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuBar({ files, getFiles }) {
   const classes = useStyles();
-  const openFiles = useSelector((state) => state.openFiles);
-  const currentFile = useSelector((state) => state.currentFile);
-  const directoryId = useSelector((state) => state.directoryId);
-  const selectedId = useSelector((state) => state.selectedId);
+  const openFiles = useSelector((state) => state.file.openFiles);
+  const currentFile = useSelector((state) => state.file.currentFile);
+  const directoryId = useSelector((state) => state.file.directoryId);
+  const selectedId = useSelector((state) => state.file.selectedId);
 
   const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
@@ -41,6 +41,12 @@ function MenuBar({ files, getFiles }) {
   const onChangeFileName = (id, fileName) =>
     dispatch(changeFileName(id, fileName));
 
+  useEffect(() => {
+    if (currentFile === undefined || currentFile.id === null) {
+      // TODO : 다시 파일 열리면 검색값은 그대로 남아있게 처리
+      setEditBarOpen(false);
+    }
+  }, [currentFile]);
   /////// new file , folder관련 함수
   const setCurrentInfo = (e) => {
     if (e.type === 'file') {
@@ -202,6 +208,10 @@ function MenuBar({ files, getFiles }) {
   };
 
   const handleEditItemClick = (event) => {
+    // 파일 선택 안되면 안열림
+    if (currentFile === undefined || currentFile.id === null) {
+      return;
+    }
     switch (event) {
       case 'Find':
         setEditType('find');
