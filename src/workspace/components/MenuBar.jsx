@@ -8,6 +8,7 @@ import {
   clearFile,
   setSelectedId,
   changeFileName,
+  resetChanged,
 } from '../modules/reducers';
 
 import { MenuItem } from '.';
@@ -40,6 +41,7 @@ function MenuBar({ files, getFiles }) {
   const onSetSelectedId = (id) => dispatch(setSelectedId(id));
   const onChangeFileName = (id, fileName) =>
     dispatch(changeFileName(id, fileName));
+  const onResetChanged = (id) => dispatch(resetChanged(id));
 
   useEffect(() => {
     if (currentFile === undefined || currentFile.id === null) {
@@ -124,6 +126,7 @@ function MenuBar({ files, getFiles }) {
         contents: file.contents,
       })
       .then((res) => {
+        onResetChanged(res.data.id);
         console.log(res.data);
       })
       .catch((e) => {

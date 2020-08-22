@@ -27,6 +27,7 @@ function FindForm({ handleClose, findRef, useStyles }) {
   const onSetFindValue = (value) => dispatch(setFindValue(value));
 
   useEffect(() => {
+    // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음
     if (findInput !== findValue) {
       setFindInput(findValue);
     }
@@ -44,6 +45,7 @@ function FindForm({ handleClose, findRef, useStyles }) {
           inputRef={findRef}
           value={findInput}
           onChange={handleChange}
+          onFocus={(e) => e.target.select()}
         />
         <div
           id="result"

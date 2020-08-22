@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
       padding: 4,
     },
   },
-
   input: {
     padding: '0px !important',
     marginRight: '8px',
@@ -104,7 +103,7 @@ function EditBar({ open, handleClose, type }) {
           <Button onClick={toggle} className={classes.Btn} id="expand">
             {expanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
           </Button>
-          <Accordion square expanded={expanded}>
+          <Accordion expanded={expanded}>
             <FindForm
               handleClose={handleClose}
               findRef={findRef}

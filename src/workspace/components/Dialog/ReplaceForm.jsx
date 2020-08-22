@@ -24,6 +24,7 @@ function ReplaceForm({ replaceRef, useStyles }) {
   const onSetReplaceValue = (value) => dispatch(setReplaceValue(value));
 
   useEffect(() => {
+    // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음
     if (replaceInput !== replaceValue) {
       setReplaceInput(replaceValue);
     }
@@ -41,6 +42,7 @@ function ReplaceForm({ replaceRef, useStyles }) {
           inputRef={replaceRef}
           onChange={handleChange}
           value={replaceInput}
+          onFocus={(e) => e.target.select()}
         />
         <Button className={classes.Btn} id="subBtn">
           변경

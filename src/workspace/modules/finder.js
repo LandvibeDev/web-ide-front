@@ -10,6 +10,8 @@ export const setReplaceValue = (value) => ({
 const initalState = {
   find: '',
   replace: '',
+  counts: 0, // find한 전체 개수
+  index: null, // find된 목록 중 현재 위치
 };
 
 function finder(state = initalState, action) {

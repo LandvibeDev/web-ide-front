@@ -1,9 +1,10 @@
-const SELECT_FILE = 'SELECT_FILE';
-const CLEAR_FILE = 'CLEAR_FILE';
-const SELECT_DIR = 'SELECT_DIR';
-const CHANGE_FILE_CONTENTS = 'CHANGE_FILE_CONTENTS';
-const CHANGE_FILE_NAME = 'CHANGE_FILE_NAME';
-const SET_SELECTED_ID = 'SET_SELECTED_ID';
+const SELECT_FILE = 'SELECT_FILE'; // 파일 선택
+const CLEAR_FILE = 'CLEAR_FILE'; // openfiletab에서 삭제 & 파일 삭제
+const SELECT_DIR = 'SELECT_DIR'; // 폴더 선택
+const CHANGE_FILE_CONTENTS = 'CHANGE_FILE_CONTENTS'; // 에디터 파일 내용 변경
+const CHANGE_FILE_NAME = 'CHANGE_FILE_NAME'; // rename
+const SET_SELECTED_ID = 'SET_SELECTED_ID'; // 파일트리에서 파일,폴더 선택시 selected 값 설정
+const RESET_CHANGED = 'RESET_CHANGED'; // 파일 저장시 changed false로 다시 변경
 
 export const selectFile = (file) => ({
   type: SELECT_FILE,
@@ -27,12 +28,14 @@ export const changeFileName = (id, fileName) => ({
   name: fileName,
 });
 export const setSelectedId = (id) => ({ type: SET_SELECTED_ID, id: id });
+export const resetChanged = (id) => ({ type: RESET_CHANGED, id: id });
 
 const initialState = {
   openFiles: [],
   currentFile: { id: null, name: null },
   directoryId: '1',
   selectedId: 1,
+  currentContents: '',
 };
 
 function reducers(state = initialState, action) {
@@ -46,12 +49,14 @@ function reducers(state = initialState, action) {
           name: action.name,
           id: action.id,
           contents: action.contents,
+          changed: false,
         });
       }
       return {
         ...state,
         currentFile: { id: action.id, name: action.name },
         openFiles: newArr,
+        currentContents: action.contents,
       };
     case CLEAR_FILE:
       const newOpenFiles = state.openFiles.filter(
@@ -66,6 +71,7 @@ function reducers(state = initialState, action) {
           openFiles: newOpenFiles,
           directoryId: '1',
           selectedId: 1,
+          currentContents: '',
         };
       } else {
         // 현재 보고있는 파일을 닫은경우
@@ -75,6 +81,10 @@ function reducers(state = initialState, action) {
             ...state,
             currentFile: { id: newCurrentFile.id, name: newCurrentFile.name },
             openFiles: newOpenFiles,
+            selectedId: newCurrentFile.id,
+            currentContents: newOpenFiles.filter(
+              (file) => file.id === newCurrentFile.id,
+            )[0].contents,
           };
         } else {
           return {
@@ -85,6 +95,9 @@ function reducers(state = initialState, action) {
               name: state.currentFile.name,
             },
             selectedId: state.currentFile.id,
+            currentContents: newOpenFiles.filter(
+              (file) => file.id === state.currentFile.id,
+            )[0].contents,
           };
         }
       }
@@ -94,16 +107,18 @@ function reducers(state = initialState, action) {
         directoryId: action.id,
       };
 
-    // save로 file contents변경
+    // file contents변경
     case CHANGE_FILE_CONTENTS:
       const changeOpenFiles = state.openFiles;
       const idx = changeOpenFiles.findIndex((file) => file.id === action.id);
       if (changeOpenFiles[idx].contents !== action.contents) {
         changeOpenFiles[idx].contents = action.contents;
+        changeOpenFiles[idx].changed = true;
       }
       return {
         ...state,
         openFiles: changeOpenFiles,
+        currentContents: action.contents,
       };
     // rename으로 filename 변경
     case CHANGE_FILE_NAME:
@@ -122,6 +137,16 @@ function reducers(state = initialState, action) {
       return {
         ...state,
         selectedId: action.id,
+      };
+    case RESET_CHANGED:
+      const setChangedOpenFiles = state.openFiles;
+      const cidx = setChangedOpenFiles.findIndex(
+        (file) => file.id === action.id,
+      );
+      setChangedOpenFiles[cidx].changed = false;
+      return {
+        ...state,
+        openFiles: setChangedOpenFiles,
       };
     default:
       return state;

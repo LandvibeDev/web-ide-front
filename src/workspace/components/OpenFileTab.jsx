@@ -53,7 +53,10 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
       });
   };
 
-  const handleCloseBtnClick = (id) => {
+  const handleCloseBtnClick = (id, changed) => {
+    if (changed) {
+      alert('저장하지 않고 닫으시겠습니까?');
+    }
     if (currentFile.id === id) setValue(null);
     onClearFile(id);
   };
@@ -86,10 +89,16 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
               <Tab
                 label={
                   <div className={classes.tab}>
-                    <span>{file.name}</span>
+                    {file.changed === true ? (
+                      <span style={{ color: 'red' }}>{file.name}</span>
+                    ) : (
+                      <span>{file.name}</span>
+                    )}
                     <CloseIcon
                       fontSize="small"
-                      onClick={(e) => handleCloseBtnClick(file.id)}
+                      onClick={(e) =>
+                        handleCloseBtnClick(file.id, file.changed)
+                      }
                       className={classes.closebtn}
                     />
                   </div>

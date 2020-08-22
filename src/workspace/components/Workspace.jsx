@@ -3,7 +3,8 @@ import { OpenFileTab, Editor, QuickIconTab } from './';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetChanged } from '../modules/reducers';
 import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   openFIleTab: {
@@ -26,6 +27,9 @@ function Workspace() {
   const currentFile = useSelector((state) => state.file.currentFile);
   const openFiles = useSelector((state) => state.file.openFiles);
   const directoryId = useSelector((state) => state.file.directoryId);
+  useSelector((state) => state.file.currentContents);
+  const dispatch = useDispatch();
+  const onResetChanged = (id) => dispatch(resetChanged(id));
 
   const saveFile = (id, contents) => {
     fileAPIs
@@ -34,6 +38,7 @@ function Workspace() {
         contents: contents,
       })
       .then((res) => {
+        onResetChanged(res.data.id);
         setFile(res.data);
       })
       .catch((e) => {
