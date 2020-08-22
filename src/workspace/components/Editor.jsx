@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactPrismEditor from 'react-prism-editor';
-import { changeFileContents } from '../modules/reducers';
+import { changeFileContents, resetChanged } from '../modules/reducers';
 import { useDispatch } from 'react-redux';
 import './font.css';
 
@@ -18,7 +18,7 @@ function Editor({ originFile, currentFile, saveFile }) {
   const anchorRef = useRef();
   const dispatch = useDispatch();
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
-
+  const onResetChanged = (id) => dispatch(resetChanged(id));
   const handleKeyDown = useCallback(
     // TODO : 키보드로 에디터 제어
     (event) => {
@@ -44,19 +44,44 @@ function Editor({ originFile, currentFile, saveFile }) {
   useEffect(() => {
     const editor = document.querySelector('pre');
     editor.addEventListener('keydown', handleKeyDown);
-    editor.addEventListener('focus', () => {
-      const value = editor.value;
-      editor.value = '';
-      editor.value = value;
-    });
     return () => {
       editor.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
 
   const handleFocus = () => {
-    anchorRef.current.focus();
-    // TODO : 제일 마지막 부분 focus되게 하기
+    const node = anchorRef.current.childNodes[0];
+
+    let caretId = '_caret';
+    var cc = document.createElement('span');
+    cc.appendChild(document.createTextNode(''));
+    cc.id = caretId;
+    const list = node.childNodes;
+    const len = list.length;
+    if (len !== 0) {
+      if (list[len - 2].tagName === 'SPAN') {
+        const add = document
+          .querySelector('pre')
+          .children[0].insertBefore(cc, list[len - 1]);
+
+        let range = document.createRange();
+        let sel = window.getSelection();
+        range.setStart(add, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        let range = document.createRange();
+        let sel = window.getSelection();
+        if (list[len - 2] === '#text') range.setStart(list[len - 2], 0);
+        else range.setStart(list[len - 2], list[len - 2].length - 1);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    } else {
+      anchorRef.current.focus();
+    }
   };
 
   return (
@@ -72,6 +97,11 @@ function Editor({ originFile, currentFile, saveFile }) {
               id: originFile.id,
               contents: code,
             });
+
+            // 저장할필요없는 상태 (원본 그대로)면 changed =false로 바꿔줌
+            if (code === originFile.contents) {
+              onResetChanged(originFile.id);
+            }
           }}
         />
       )}

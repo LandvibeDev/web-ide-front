@@ -42,19 +42,19 @@
     {
       "name": "test1.js",
       "id": 3,
-      "contents": "hello !! zzz\n헬로 \nhellow !~g gg\n",
+      "contents": "hello !! zzz\n!!zzz\n",
       "parentId": 2
     },
     {
       "name": "test2.js",
       "id": 4,
-      "parentId": 2,
-      "contents": "test2.jssssddcgabgeddd"
+      "contents": "test2.js\n//차이가 뭐지 \n흠\n",
+      "parentId": 2
     },
     {
       "name": "package.json",
       "id": 6,
-      "contents": "import React, { usezzEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs fromdd '@material-ui/core/Tabs';\nimport Tab from '@material-ui/core/Tab';\nimport CloseIcon ddfrom '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save ",
+      "contents": "import React, { usezzEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs fromdd '@material-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save",
       "changed": true,
       "parentId": 1
     },
@@ -69,6 +69,54 @@
       "parentId": 1,
       "name": "node_modules",
       "type": "directory"
+    },
+    {
+      "name": "d",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 7
+    },
+    {
+      "name": "둦",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 8
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 9
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 10
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": "1",
+      "contents": "",
+      "id": 11
+    },
+    {
+      "name": "dd",
+      "type": "file",
+      "permission": 777,
+      "parentId": "1",
+      "contents": "",
+      "id": 12
     }
   ]
 }
