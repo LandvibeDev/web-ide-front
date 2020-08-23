@@ -49,6 +49,7 @@ function SignUp(props) {
     //   .then((res) => {
     //     // 서버에서 검증
     //     props.history.replace('/dashboard');
+    //     받은 토큰 저장
     //   })
     //   .catch((err) => {
     //     // 에러코드 처리

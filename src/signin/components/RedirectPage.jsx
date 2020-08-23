@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-//import qs from 'qs';
+// import qs from 'qs';
 
 function RedirectPage(props) {
   useEffect(() => {
@@ -7,11 +7,11 @@ function RedirectPage(props) {
     const query = qs.parse(props.location.search);
     const { token, email, registered, provider } = query;
     console.log(query);
-    window.localStorage.setItem('token', token);
-    if (registered) {
-      props.history.replace('/dashboard');
+    if (!registered) {
+      props.history.replace('/signup');
     } else {
-      props.history.replace('/signup'); // email 넘기기 props
+      window.localStorage.setItem('token', token);
+      props.history.replace('/dashboard'); // email, provider 넘기기 props
     }
     */
   });
