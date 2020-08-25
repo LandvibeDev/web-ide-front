@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setFindValue } from '../../modules/finder';
+import { setFindValue, setFindList, setIndex } from '../../modules/finder';
 //찾기부분
 const Find = withStyles((theme) => ({
   root: {
@@ -30,14 +30,20 @@ function FindForm({
 
   const findValue = useSelector((state) => state.finder.find);
   const currentContents = useSelector((state) => state.file.currentContents);
+  const findList = useSelector((state) => state.finder.findList);
+  const index = useSelector((state) => state.finder.index);
+  const range = useSelector((state) => state.finder.range);
   const dispatch = useDispatch();
   const onSetFindValue = (value) => dispatch(setFindValue(value));
+  const onSetFindList = (list) => dispatch(setFindList(list));
+  const onSetIndex = (index) => dispatch(setIndex(index));
 
   useEffect(() => {
     if (findValue !== '') {
-      console.log(currentContents);
-      console.log(findValue);
-      console.log(currentContents.search(findValue));
+      const array = [...currentContents.matchAll(findValue)];
+      console.log(array.map((idx) => idx.index));
+      onSetFindList(array.map((idx) => idx.index));
+      onSetIndex(0);
     }
   }, [currentContents, findValue]);
 
@@ -58,6 +64,22 @@ function FindForm({
       e.preventDefault();
       handleTabKeyDown();
     }
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      // onSetIndex((index + 1) % findList.length);
+      const sel = window.getSelection();
+
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
+
+  const setNextIndex = () => {
+    onSetIndex((index + 1) % findList.length);
+  };
+  const setPrevIndex = () => {
+    if (index === 0) onSetIndex(findList.length - 1);
+    else onSetIndex((index - 1) % findList.length);
   };
   return (
     <Find>
@@ -76,13 +98,15 @@ function FindForm({
             display: 'inline-block',
           }}
         >
-          결과 없음
+          {findList.length === 0
+            ? '결과 없음'
+            : `${findList.length}의 ${index + 1}`}
         </div>
       </div>
-      <Button className={classes.Btn} id="subBtn">
+      <Button className={classes.Btn} id="subBtn" onClick={setPrevIndex}>
         <ArrowUpwardIcon />
       </Button>
-      <Button className={classes.Btn} id="subBtn">
+      <Button className={classes.Btn} id="subBtn" onClick={setNextIndex}>
         <ArrowDownwardIcon />
       </Button>
       <Button onClick={handleClose} className={classes.Btn} id="close">

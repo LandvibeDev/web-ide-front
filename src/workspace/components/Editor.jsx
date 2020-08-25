@@ -2,7 +2,8 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactPrismEditor from 'react-prism-editor';
 import { changeFileContents, resetChanged } from '../modules/reducers';
-import { useDispatch } from 'react-redux';
+import { setRange } from '../modules/finder';
+import { useDispatch, useSelector } from 'react-redux';
 import './font.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,12 +14,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Editor({ originFile, currentFile, saveFile }) {
+function Editor({ originFile, currentFile, saveFile, currentContents }) {
   const classes = useStyles();
   const anchorRef = useRef();
+
+  const findValue = useSelector((state) => state.finder.find);
+  const findList = useSelector((state) => state.finder.findList);
+  const index = useSelector((state) => state.finder.index);
+
   const dispatch = useDispatch();
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
   const onResetChanged = (id) => dispatch(resetChanged(id));
+  const onSetRange = (range) => dispatch(setRange(range));
   const handleKeyDown = useCallback(
     // TODO : 키보드로 에디터 제어
     (event) => {
@@ -48,6 +55,74 @@ function Editor({ originFile, currentFile, saveFile }) {
       editor.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    if (anchorRef.current.childNodes.length !== 0) {
+      // ReactPrismEditor 로드 되고 나서부터 실행
+      let count = -1; // findList의 index와 맞는 순서 찾기 위함
+      let findIndex = -1; // 찾은 결과 가져옴
+      const codeList = anchorRef.current.childNodes[0].childNodes; // 코드 값 리스트
+      for (let i = 0; i < codeList.length; i++) {
+        // span인 경우와 그냥 text인경우 분리
+        if (codeList[i].tagName === 'SPAN') {
+          if (codeList[i].innerText.match(findValue) !== null) count++;
+        } else {
+          if (codeList[i].textContent.match(findValue) !== null) count++;
+        }
+        // 해당 index에 해당하는 노드 추출
+        if (count === index) {
+          findIndex = i;
+          break;
+        }
+      }
+      if (codeList[findIndex] !== undefined) {
+        // 코드 쓰던거
+        const selected = window.getSelection().getRangeAt(0);
+
+        let range = document.createRange();
+        let sel = window.getSelection();
+
+        // range, selection 생성
+        console.log(findValue.length);
+        //range.setStart(기준 노드의 "텍스트노드"(childNodes[0]으로 가져왔음) , 기준노드에서 몇 caret뒤에서 시작할지?)
+        if (codeList[findIndex].tagName === 'SPAN') {
+          range.setStart(
+            codeList[findIndex].childNodes[0],
+            codeList[findIndex].innerText.match(findValue).index,
+          );
+        } else {
+          range.setStart(
+            codeList[findIndex],
+            codeList[findIndex].textContent.match(findValue).index,
+          );
+        }
+        // 현재 선택 노드 이상 넘어가면 next sibling 노드로 범위 다시 잡아줘야함. 아니면 range.startContainer안에서 범위 선택 가능
+        // TODO 마지막 노드 선택일때나 빈 코드일때 예외처리해줘야함
+        if (findValue.length + 1 > range.startContainer.length) {
+          // TODO 띄어쓰기 있으면 그거도 생각해줘야함
+          if (codeList[findIndex + 1].tagName === 'SPAN') {
+            range.setEnd(
+              codeList[findIndex + 1].childNodes[0],
+              findValue.length + 1 - range.startContainer.length,
+            );
+          } else {
+            range.setEnd(
+              codeList[findIndex + 1],
+              findValue.length + 1 - range.startContainer.length,
+            );
+          }
+        } else {
+          //span일땐 +1 안해야함
+          if (codeList[findIndex].tagName === 'SPAN') {
+            range.setEnd(range.startContainer, findValue.length);
+          } else range.setEnd(range.startContainer, findValue.length + 1);
+        }
+        onSetRange(range); // redux로 range 저장해서 edit 찾기 창에서 엔터누르거나 검색 하면 selection변하게ㅣ..
+        // sel.removeAllRanges();
+        // sel.addRange(range);
+      }
+    }
+  }, [currentContents, findValue, index]);
 
   const handleFocus = (e) => {
     // 코드 영역 클릭하면 영역한부분 focus

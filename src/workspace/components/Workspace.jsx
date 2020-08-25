@@ -27,7 +27,7 @@ function Workspace() {
   const currentFile = useSelector((state) => state.file.currentFile);
   const openFiles = useSelector((state) => state.file.openFiles);
   const directoryId = useSelector((state) => state.file.directoryId);
-  useSelector((state) => state.file.currentContents);
+  const currentContents = useSelector((state) => state.file.currentContents);
   const dispatch = useDispatch();
   const onResetChanged = (id) => dispatch(resetChanged(id));
 
@@ -88,6 +88,7 @@ function Workspace() {
               openFiles.filter((file) => file.id === currentFile.id)[0]
             }
             saveFile={saveFile}
+            currentContents={currentContents}
           />
         )}
       </div>

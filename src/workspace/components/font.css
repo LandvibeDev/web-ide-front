@@ -16,3 +16,7 @@ input:focus {
 pre:focus {
   outline: none;
 }
+
+.find {
+  background-color: burlywood;
+}
