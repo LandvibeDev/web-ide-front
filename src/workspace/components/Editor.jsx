@@ -49,36 +49,39 @@ function Editor({ originFile, currentFile, saveFile }) {
     };
   }, [handleKeyDown]);
 
-  const handleFocus = () => {
-    const node = anchorRef.current.childNodes[0];
-
-    let caretId = '_caret';
-    var cc = document.createElement('span');
-    cc.appendChild(document.createTextNode(''));
-    cc.id = caretId;
-    const list = node.childNodes;
-    const len = list.length;
+  const handleFocus = (e) => {
+    // 코드 영역 클릭하면 영역한부분 focus
+    if (['PRE', 'CODE', 'SPAN'].includes(e.target.tagName)) {
+      e.preventDefault();
+      return;
+    }
+    // 에디터 빈 영역 클릭하면 코드 맨 마지막 오른쪽부분으로 focusing
+    // 1. 빈 파일 -> 첫번째 라인 focus
+    // 2. 이미 코드 존재 -> 맨 마지막줄 다음에 새로운 span 노드 생성해서 거기에 range, selection으로 포커스 달아줌
+    // 3. 맨 마지막줄이 span이 아니고 #text이거나 " " 일 경우에는 span 추가하지 않고 그 위치에 focus
+    const codeList = anchorRef.current.childNodes[0].childNodes;
+    const len = codeList.length;
     if (len !== 0) {
-      if (list[len - 2].tagName === 'SPAN') {
-        const add = document
-          .querySelector('pre')
-          .children[0].insertBefore(cc, list[len - 1]);
+      // 빈 파일이 아닐 때
+      let range = document.createRange();
+      let sel = window.getSelection();
 
-        let range = document.createRange();
-        let sel = window.getSelection();
-        range.setStart(add, 0);
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
+      if (codeList[len - 2].tagName === 'SPAN') {
+        // 새로운 span 만들어 추가
+        var newSpan = document.createElement('span');
+        newSpan.appendChild(document.createTextNode(''));
+        document
+          .querySelector('pre')
+          .children[0].insertBefore(newSpan, codeList[len - 1]);
+        range.setStart(newSpan, 0); // 새로 추가한 span부분에 range 시작점 set
       } else {
-        let range = document.createRange();
-        let sel = window.getSelection();
-        if (list[len - 2] === '#text') range.setStart(list[len - 2], 0);
-        else range.setStart(list[len - 2], list[len - 2].length - 1);
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
+        // 마지막부분(추가할 부분)이 #text이거나 "..."인 경우가 있어서 구분해서 range 시작점 정해줌
+        if (codeList[len - 2] === '#text') range.setStart(codeList[len - 2], 0);
+        else range.setStart(codeList[len - 2], codeList[len - 2].length - 1);
       }
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
     } else {
       anchorRef.current.focus();
     }

@@ -42,13 +42,13 @@
     {
       "name": "test1.js",
       "id": 3,
-      "contents": "hello !! zzz\n!!zzz\n",
+      "contents": "function App(){\n  return (\n  <div>\n    hello my name is k!!\n  </div>\n  );\n};\nexport default App;\ngkggk\n\n",
       "parentId": 2
     },
     {
       "name": "test2.js",
       "id": 4,
-      "contents": "test2.js\n//차이가 뭐지 \n흠\n",
+      "contents": "test2.js\n//차이가 뭐지 gma\nsdsf\n흠sdf\n\ndzz\n",
       "parentId": 2
     },
     {

@@ -18,13 +18,28 @@ const Find = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-function FindForm({ handleClose, findRef, useStyles }) {
+function FindForm({
+  handleClose,
+  findRef,
+  useStyles,
+  handleTabKeyDown,
+  expanded,
+}) {
   const classes = useStyles();
   const [findInput, setFindInput] = useState('');
 
   const findValue = useSelector((state) => state.finder.find);
+  const currentContents = useSelector((state) => state.file.currentContents);
   const dispatch = useDispatch();
   const onSetFindValue = (value) => dispatch(setFindValue(value));
+
+  useEffect(() => {
+    if (findValue !== '') {
+      console.log(currentContents);
+      console.log(findValue);
+      console.log(currentContents.search(findValue));
+    }
+  }, [currentContents, findValue]);
 
   useEffect(() => {
     // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음
@@ -37,6 +52,13 @@ function FindForm({ handleClose, findRef, useStyles }) {
     onSetFindValue(e.target.value);
   };
 
+  // replace창도 켜있으면 tab key 눌렀을때 replace input으로 focusing
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 9 && expanded) {
+      e.preventDefault();
+      handleTabKeyDown();
+    }
+  };
   return (
     <Find>
       <div>
@@ -46,6 +68,7 @@ function FindForm({ handleClose, findRef, useStyles }) {
           value={findInput}
           onChange={handleChange}
           onFocus={(e) => e.target.select()}
+          onKeyDown={handleKeyDown}
         />
         <div
           id="result"

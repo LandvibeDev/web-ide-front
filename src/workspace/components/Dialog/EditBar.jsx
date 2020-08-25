@@ -91,6 +91,9 @@ function EditBar({ open, handleClose, type }) {
     } else findRef.current.focus();
   }, [type]);
 
+  const handleTabKeyDown = () => {
+    replaceRef.current.focus();
+  };
   return (
     <>
       <Snackbar
@@ -106,8 +109,10 @@ function EditBar({ open, handleClose, type }) {
           <Accordion expanded={expanded}>
             <FindForm
               handleClose={handleClose}
+              handleTabKeyDown={handleTabKeyDown}
               findRef={findRef}
               useStyles={useStyles}
+              expanded={expanded}
             />
             <ReplaceForm replaceRef={replaceRef} useStyles={useStyles} />
           </Accordion>
