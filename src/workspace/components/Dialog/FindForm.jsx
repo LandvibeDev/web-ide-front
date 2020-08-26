@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -6,11 +6,9 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setFindValue, setFindList, setIndex } from '../../modules/finder';
-import { useCallback } from 'react';
 //찾기부분
 const Find = withStyles((theme) => ({
   root: {
@@ -27,46 +25,44 @@ function FindForm({
   expanded,
 }) {
   const classes = useStyles();
-  const [findInput, setFindInput] = useState('');
 
   const findValue = useSelector((state) => state.finder.find);
   const currentContents = useSelector((state) => state.file.currentContents);
   const findList = useSelector((state) => state.finder.findList);
   const index = useSelector((state) => state.finder.index);
   const range = useSelector((state) => state.finder.range);
+
   const dispatch = useDispatch();
   const onSetFindValue = (value) => dispatch(setFindValue(value));
+  const onSetFindList = useCallback((list) => dispatch(setFindList(list)), [
+    dispatch,
+  ]);
+  const onSetIndex = useCallback((index) => dispatch(setIndex(index)), [
+    dispatch,
+  ]);
 
-  const onSetFindList = useCallback(
-    async (list) => {
-      dispatch(setFindList(list));
-    },
-    [dispatch],
-  );
-
-  const onSetIndex = useCallback(
-    async (index) => {
-      dispatch(setIndex(index));
-    },
-    [dispatch],
-  );
+  const selectionAddRange = () => {
+    if (findList.length !== 0 && range !== null) {
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
 
   useEffect(() => {
+    //contents, findvalue 변경시
     if (findValue !== '') {
       const array = [...currentContents.matchAll(findValue)];
       onSetFindList(array.map((idx) => idx.index));
-      if (index === -1) onSetIndex(0);
+      onSetIndex(0);
+    } else {
+      onSetFindList([]);
+      onSetIndex(-1);
     }
-  }, [currentContents, findValue, index, onSetFindList, onSetIndex]);
+  }, [currentContents, onSetFindList, onSetIndex, findValue]);
 
-  useEffect(() => {
-    // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음
-    if (findInput !== findValue) {
-      setFindInput(findValue);
-    }
-  }, [findValue, findInput]);
   const handleChange = (e) => {
-    setFindInput(e.target.value);
+    // TODO ? \ . ( 같은 문자 들어오면 String.match, String.matchAll함수는 findValue를 정규식으로 읽어와서?? 오류생김 해결필요
     onSetFindValue(e.target.value);
   };
 
@@ -78,11 +74,7 @@ function FindForm({
     }
     if (e.keyCode === 13) {
       e.preventDefault();
-      // onSetIndex((index + 1) % findList.length);
-      const sel = window.getSelection();
-
-      sel.removeAllRanges();
-      sel.addRange(range);
+      selectionAddRange();
     }
   };
 
@@ -99,7 +91,7 @@ function FindForm({
         <Input
           className={classes.input}
           inputRef={findRef}
-          value={findInput}
+          value={findValue}
           onChange={handleChange}
           onFocus={(e) => e.target.select()}
           onKeyDown={handleKeyDown}

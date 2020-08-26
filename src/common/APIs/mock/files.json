@@ -42,7 +42,7 @@
     {
       "name": "test1.js",
       "id": 3,
-      "contents": "function App(){\n  return (\n  <div>\n    hello my name is k!!\n  </div>\n  );\n};\nexport default App;\ngkggk\n\n",
+      "contents": "function App(){\n  return (\n  <div>\n    hello my name is k!!\n    import\n  </div>\n  );\n};\nexport default App;\ngkggk\n\n",
       "parentId": 2
     },
     {
@@ -54,7 +54,7 @@
     {
       "name": "package.json",
       "id": 6,
-      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppBar';\nimport Tabs fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save",
+      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppBar';\nimport Tabs fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .",
       "changed": true,
       "parentId": 1
     },
@@ -117,6 +117,14 @@
       "parentId": "1",
       "contents": "",
       "id": 12
+    },
+    {
+      "name": "ne",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 13
     }
   ]
 }

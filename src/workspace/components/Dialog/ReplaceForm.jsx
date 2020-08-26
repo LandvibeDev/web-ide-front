@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
@@ -24,7 +24,6 @@ function replaceAt(string, index, length, replace) {
 
 function ReplaceForm({ replaceRef, useStyles }) {
   const classes = useStyles();
-  const [replaceInput, setReplaceInput] = useState('');
 
   const replaceValue = useSelector((state) => state.finder.replace);
   const findValue = useSelector((state) => state.finder.find);
@@ -38,15 +37,7 @@ function ReplaceForm({ replaceRef, useStyles }) {
   const onSetIndex = (index) => dispatch(setIndex(index));
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
 
-  useEffect(() => {
-    // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음
-    if (replaceInput !== replaceValue) {
-      setReplaceInput(replaceValue);
-    }
-  }, [replaceValue, replaceInput]);
-
   const handleChange = (e) => {
-    setReplaceInput(e.target.value);
     onSetReplaceValue(e.target.value);
   };
 
@@ -79,7 +70,7 @@ function ReplaceForm({ replaceRef, useStyles }) {
           className={classes.input}
           inputRef={replaceRef}
           onChange={handleChange}
-          value={replaceInput}
+          value={replaceValue}
           onFocus={(e) => e.target.select()}
         />
         <Button className={classes.Btn} id="subBtn" onClick={replaceOne}>
