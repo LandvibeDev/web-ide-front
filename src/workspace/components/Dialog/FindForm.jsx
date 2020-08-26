@@ -10,6 +10,7 @@ import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setFindValue, setFindList, setIndex } from '../../modules/finder';
+import { useCallback } from 'react';
 //찾기부분
 const Find = withStyles((theme) => ({
   root: {
@@ -35,17 +36,28 @@ function FindForm({
   const range = useSelector((state) => state.finder.range);
   const dispatch = useDispatch();
   const onSetFindValue = (value) => dispatch(setFindValue(value));
-  const onSetFindList = (list) => dispatch(setFindList(list));
-  const onSetIndex = (index) => dispatch(setIndex(index));
+
+  const onSetFindList = useCallback(
+    async (list) => {
+      dispatch(setFindList(list));
+    },
+    [dispatch],
+  );
+
+  const onSetIndex = useCallback(
+    async (index) => {
+      dispatch(setIndex(index));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (findValue !== '') {
       const array = [...currentContents.matchAll(findValue)];
-      console.log(array.map((idx) => idx.index));
       onSetFindList(array.map((idx) => idx.index));
-      onSetIndex(0);
+      if (index === -1) onSetIndex(0);
     }
-  }, [currentContents, findValue]);
+  }, [currentContents, findValue, index, onSetFindList, onSetIndex]);
 
   useEffect(() => {
     // 창 닫았다가 다시 찾기 창 켜도 검색값 남아있음

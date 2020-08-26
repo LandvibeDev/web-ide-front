@@ -17,7 +17,7 @@ const initalState = {
   find: '',
   replace: '',
   findList: [], // find한 목록
-  index: null, // find된 목록 중 현재 위치
+  index: -1, // find된 목록 중 현재 위치
   range: null,
 };
 

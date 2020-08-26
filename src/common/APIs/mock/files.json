@@ -54,7 +54,7 @@
     {
       "name": "package.json",
       "id": 6,
-      "contents": "import React, { usezzEffect } from 'react';\nimport AppBar from '@material-ui/core/AppBar';\nimport Tabs fromdd '@material-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@material-ui/icons/Close';\nimport { makeStyles } from '@material-ui/core/styles';\n// save",
+      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppBar';\nimport Tabs fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save",
       "changed": true,
       "parentId": 1
     },
