@@ -54,7 +54,7 @@
     {
       "name": "package.json",
       "id": 6,
-      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppBar';\nimport Tabs fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .",
+      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .\ntextscrollcheck\ncheck\ncehck\nport ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .\n// hello\n\n",
       "changed": true,
       "parentId": 1
     },
@@ -125,6 +125,14 @@
       "parentId": 1,
       "contents": "",
       "id": 13
+    },
+    {
+      "name": "새",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 14
     }
   ]
 }

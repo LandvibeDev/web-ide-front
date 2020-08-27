@@ -41,17 +41,34 @@ function FindForm({
     dispatch,
   ]);
 
-  const selectionAddRange = () => {
-    if (findList.length !== 0 && range !== null) {
+  const selectionAddRange = useCallback(async () => {
+    // 검색값 class find 추가해서 css적용해준거 다 품
+    const oldList = document.getElementsByClassName('find');
+    for (let i = 0; i < oldList.length; i++) {
+      oldList[i].classList.remove('find');
+    }
+    if (findList.length !== 0 && range !== null && findValue !== '') {
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
+      if (range.startContainer.parentNode.tagName === 'SPAN') {
+        range.startContainer.parentNode.classList.add('find');
+        sel.removeAllRanges();
+      } else {
+      }
+      findRef.current.focus(); // 다시 검색창으로 포커스 맞춰줌
     }
-  };
+  }, [findList, findRef, findValue, range]);
 
   useEffect(() => {
     //contents, findvalue 변경시
     if (findValue !== '') {
+      if (currentContents === '\n') {
+        // 빈 코드 ( 처음 생성해서 빈코드말고 쓰다가 아예 지워서 빈코드된경우)
+        onSetFindList([]);
+        onSetIndex(-1);
+        return;
+      }
       const array = [...currentContents.matchAll(findValue)];
       onSetFindList(array.map((idx) => idx.index));
       onSetIndex(0);
@@ -60,6 +77,10 @@ function FindForm({
       onSetIndex(-1);
     }
   }, [currentContents, onSetFindList, onSetIndex, findValue]);
+
+  useEffect(() => {
+    selectionAddRange();
+  }, [range, selectionAddRange]);
 
   const handleChange = (e) => {
     // TODO ? \ . ( 같은 문자 들어오면 String.match, String.matchAll함수는 findValue를 정규식으로 읽어와서?? 오류생김 해결필요
@@ -74,14 +95,16 @@ function FindForm({
     }
     if (e.keyCode === 13) {
       e.preventDefault();
-      selectionAddRange();
+      setNextIndex();
     }
   };
 
   const setNextIndex = () => {
+    if (findList.length === 1) return;
     onSetIndex((index + 1) % findList.length);
   };
   const setPrevIndex = () => {
+    if (findList.length === 1) return;
     if (index === 0) onSetIndex(findList.length - 1);
     else onSetIndex((index - 1) % findList.length);
   };
@@ -93,7 +116,7 @@ function FindForm({
           inputRef={findRef}
           value={findValue}
           onChange={handleChange}
-          onFocus={(e) => e.target.select()}
+          // onFocus={(e) => e.target.select()}
           onKeyDown={handleKeyDown}
         />
         <div
@@ -104,7 +127,7 @@ function FindForm({
         >
           {findList.length === 0
             ? '결과 없음'
-            : `${findList.length}의 ${index + 1}`}
+            : `${findList.length}의 ${index + 1} `}
         </div>
       </div>
       <Button className={classes.Btn} id="subBtn" onClick={setPrevIndex}>

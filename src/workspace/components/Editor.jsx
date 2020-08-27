@@ -21,7 +21,6 @@ function Editor({ originFile, currentFile, saveFile, currentContents }) {
   const findValue = useSelector((state) => state.finder.find);
   // const findList = useSelector((state) => state.finder.findList);
   const index = useSelector((state) => state.finder.index);
-
   const dispatch = useDispatch();
   const onChangeFileContents = (file) => dispatch(changeFileContents(file));
   const onResetChanged = (id) => dispatch(resetChanged(id));
@@ -48,11 +47,8 @@ function Editor({ originFile, currentFile, saveFile, currentContents }) {
   );
 
   useEffect(() => {
-    const current = document.querySelector('pre');
-    anchorRef.current = current;
-  });
-  useEffect(() => {
     const editor = document.querySelector('pre');
+    anchorRef.current = editor;
     editor.addEventListener('keydown', handleKeyDown);
     return () => {
       editor.removeEventListener('keydown', handleKeyDown);
@@ -64,7 +60,8 @@ function Editor({ originFile, currentFile, saveFile, currentContents }) {
       //   // ReactPrismEditor 로드 되고 나서부터 실행
       let count = -1; // findList의 index와 맞는 순서 찾기 위함
       let findIndex = -1; // 찾은 결과 가져옴
-      const codeList = anchorRef.current.childNodes[0].childNodes; // 코드 값 리스트
+      if (index === -1) return; // find 결과없음인경우
+      let codeList = anchorRef.current.childNodes[0].childNodes; // 코드 값 리스트
       for (let i = 0; i < codeList.length; i++) {
         // span인 경우와 그냥 text인경우 분리
         if (codeList[i].tagName === 'SPAN') {
@@ -95,36 +92,21 @@ function Editor({ originFile, currentFile, saveFile, currentContents }) {
             codeList[findIndex].textContent.match(findValue).index,
           );
         }
+        if (codeList[findIndex].tagName === 'SPAN') {
+          editRange.setEnd(editRange.startContainer, findValue.length);
+        }
+        //한글자 검색하는경우
+        else
+          editRange.setEnd(
+            editRange.startContainer,
+            Math.min(findValue.length, findValue.length + 1),
+          );
+
         onSetRange(editRange); // redux로 range 저장해서 edit 찾기 창에서 엔터누르거나 검색 하면 selection변하게ㅣ..
       } else {
         // TODO 노드가 하나가 아닐땐 findIndex를 못찾아서 다른 방법 찾아야함
-        console.log(findIndex);
-        console.log(findValue);
+        onSetRange(null);
       }
-
-      // TODO findValue에 맞는 만큼 css처리 해주려고했는데 잘 안되는중 . .
-      // 현재 선택 노드 이상 넘어가면 next sibling 노드로 범위 다시 잡아줘야함. 아니면 range.startContainer안에서 범위 선택 가능
-      // TODO 마지막 노드 선택일때나 빈 코드일때 예외처리해줘야함
-      // if (findValue.length + 1 > editRange.startContainer.length) {
-      //   // TODO 띄어쓰기 있으면 그거도 생각해줘야함
-      //   if (codeList[findIndex + 1].tagName === 'SPAN') {
-      //     editRange.setEnd(
-      //       codeList[findIndex + 1].childNodes[0],
-      //       findValue.length + 1 - editRange.startContainer.length,
-      //     );
-      //   } else {
-      //     editRange.setEnd(
-      //       codeList[findIndex + 1],
-      //       findValue.length + 1 - editRange.startContainer.length,
-      //     );
-      //   }
-      // } else {
-      //   //span일땐 +1 안해야함
-      //   if (codeList[findIndex].tagName === 'SPAN') {
-      //     editRange.setEnd(editRange.startContainer, findValue.length);
-      //   } else
-      //     editRange.setEnd(editRange.startContainer, findValue.length + 1);
-      // }
     }
   }, [currentContents, findValue, index, onSetRange]);
 
