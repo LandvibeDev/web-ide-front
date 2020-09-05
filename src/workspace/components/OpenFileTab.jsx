@@ -12,7 +12,7 @@ import {
   clearFile,
   setSelectedId,
 } from '../modules/reducers';
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 
 const useStyles = makeStyles((theme) => ({
   tab: { textAlign: 'center', position: 'relative' },
@@ -53,7 +53,12 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
       });
   };
 
-  const handleCloseBtnClick = (id) => {
+  const handleCloseBtnClick = (id, changed) => {
+    // TODO : confirm용 dialog컴포넌트 생성
+    if (changed) {
+      const confirmDialog = window.confirm('저장하지 않고 닫으시겠습니까?');
+      if (!confirmDialog) return;
+    }
     if (currentFile.id === id) setValue(null);
     onClearFile(id);
   };
@@ -86,10 +91,14 @@ function OpenFileTab({ currentFile, openFiles, directoryId, setFile }) {
               <Tab
                 label={
                   <div className={classes.tab}>
-                    <span>{file.name}</span>
+                    <span style={{ color: file.changed ? 'red' : 'black' }}>
+                      {file.name}
+                    </span>
                     <CloseIcon
                       fontSize="small"
-                      onClick={(e) => handleCloseBtnClick(file.id)}
+                      onClick={(e) =>
+                        handleCloseBtnClick(file.id, file.changed)
+                      }
                       className={classes.closebtn}
                     />
                   </div>

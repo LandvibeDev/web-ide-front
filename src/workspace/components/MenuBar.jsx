@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,12 +7,14 @@ import {
   selectDirectory,
   clearFile,
   setSelectedId,
+  changeFileName,
+  resetChanged,
 } from '../modules/reducers';
 
 import { MenuItem } from '.';
-import { CreateFileDialog } from './Dialog';
+import { CreateFileDialog, EditBar } from './Dialog';
 
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -21,13 +23,15 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuBar({ files, getFiles }) {
   const classes = useStyles();
-  const openFiles = useSelector((state) => state.openFiles);
-  const currentFile = useSelector((state) => state.currentFile);
-  const directoryId = useSelector((state) => state.directoryId);
-  const selectedId = useSelector((state) => state.selectedId);
+  const openFiles = useSelector((state) => state.file.openFiles);
+  const currentFile = useSelector((state) => state.file.currentFile);
+  const directoryId = useSelector((state) => state.file.directoryId);
+  const selectedId = useSelector((state) => state.file.selectedId);
 
   const [isFileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileType, setFileType] = useState(null);
+  const [isEditBarOpen, setEditBarOpen] = useState(false);
+  const [editType, setEditType] = useState(null);
 
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
@@ -35,7 +39,15 @@ function MenuBar({ files, getFiles }) {
   const onSelectDirectory = (id) => dispatch(selectDirectory(id));
   const onClearFile = (id) => dispatch(clearFile(id));
   const onSetSelectedId = (id) => dispatch(setSelectedId(id));
+  const onChangeFileName = (id, fileName) =>
+    dispatch(changeFileName(id, fileName));
+  const onResetChanged = (id) => dispatch(resetChanged(id));
 
+  useEffect(() => {
+    if (currentFile === undefined || currentFile.id === null) {
+      setEditBarOpen(false);
+    }
+  }, [currentFile]);
   /////// new file , folder관련 함수
   const setCurrentInfo = (e) => {
     if (e.type === 'file') {
@@ -63,24 +75,44 @@ function MenuBar({ files, getFiles }) {
     setFileDialogOpen(false);
   };
   const handleFileDialogSubmit = (fileName) => {
-    fileAPIs
-      .post('file', {
-        name: fileName,
-        type: fileType === 'saveas' ? 'file' : fileType,
-        permission: 777,
-        parentId: directoryId,
-        contents:
-          fileType === 'saveas'
-            ? openFiles.filter((file) => file.id === currentFile.id)[0].contents
-            : '',
-      })
-      .then((res) => {
-        setCurrentInfo(res.data);
-        getFiles();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // TODO : 관리 (?) 필요..
+    const postObj = {
+      name: fileName,
+      type: fileType === 'saveas' ? 'file' : fileType,
+      permission: 777,
+      parentId: directoryId,
+      contents:
+        fileType === 'saveas'
+          ? openFiles.filter((file) => file.id === currentFile.id)[0].contents
+          : '',
+    };
+    if (fileType === 'directory') delete postObj.contents; // 폴더는 contents가 없음
+    const putObj = {
+      name: fileName,
+    };
+
+    //dialog 여는 경우중 rename만 put으로 파일 이름만 변경이고, 나머지(new,saveas)는 post로 새 파일 생성
+    if (fileType === 'rename') {
+      fileAPIs
+        .put(`file/${selectedId}`, putObj)
+        .then((res) => {
+          getFiles();
+          onChangeFileName(selectedId, res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      fileAPIs
+        .post('file', postObj)
+        .then((res) => {
+          setCurrentInfo(res.data);
+          getFiles();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     setFileDialogOpen(false);
   };
 
@@ -90,9 +122,11 @@ function MenuBar({ files, getFiles }) {
     fileAPIs
       .put(`/file/${id}`, {
         ...file,
+        parentId: directoryId,
         contents: file.contents,
       })
       .then((res) => {
+        onResetChanged(res.data.id);
         console.log(res.data);
       })
       .catch((e) => {
@@ -115,45 +149,93 @@ function MenuBar({ files, getFiles }) {
 
   // control menu item
   const handleFileItemClick = (event) => {
-    if (event === 'New File') {
-      setFileType('file');
-      setFileDialogOpen(true);
-    } else if (event === 'New Folder') {
-      setFileType('directory');
-      setFileDialogOpen(true);
-    } else if (event === 'File Upload') {
-      // TODO : file upload
-    } else if (event === 'Save') {
-      if (currentFile === undefined || currentFile.id === null) {
-        alert('파일을 선택해주세요!');
-        return;
-      }
-      saveFile(
-        currentFile.id,
-        openFiles.filter((file) => file.id === currentFile.id)[0],
-      );
-    } else if (event === 'Save as') {
-      if (currentFile === undefined || currentFile.id === null) {
-        alert('파일을 선택해주세요!');
-        return;
-      }
-      setFileType('saveas');
-      setFileDialogOpen(true);
-    } else if (event === 'Delete') {
-      if (selectedId === 1) {
-        alert('프로젝트 폴더는 삭제할 수 없습니다.');
-        return;
-      } else if (directoryId === selectedId) {
-        alert('폴더 삭제'); // TODO : 폴더 삭제 예외 처리 및 구현
-        return;
-      } else deleteFile(selectedId);
+    switch (event) {
+      case 'New File':
+        setFileType('file');
+        setFileDialogOpen(true);
+        break;
+
+      case 'New Folder':
+        setFileType('directory');
+        setFileDialogOpen(true);
+        break;
+
+      case 'Save':
+        if (currentFile === undefined || currentFile.id === null) {
+          alert('파일을 선택해주세요!');
+          return;
+        }
+        saveFile(
+          currentFile.id,
+          openFiles.filter((file) => file.id === currentFile.id)[0],
+        );
+        break;
+
+      case 'Save as':
+        if (currentFile === undefined || currentFile.id === null) {
+          alert('파일을 선택해주세요!');
+          return;
+        }
+        setFileType('saveas');
+        setFileDialogOpen(true);
+        break;
+
+      case 'Delete':
+        if (selectedId === 1) {
+          alert('프로젝트 폴더는 삭제할 수 없습니다.');
+          return;
+        } else if (directoryId === selectedId) {
+          alert('폴더 삭제'); // TODO : 폴더 삭제 예외 처리 및 구현
+          return;
+        } else deleteFile(selectedId);
+        break;
+
+      case 'Rename':
+        if (selectedId === 1) {
+          alert('프로젝트 폴더 정보는 대시보드에서 변경해주세요.');
+          return;
+        }
+        setFileType('rename');
+        setFileDialogOpen(true);
+        break;
+      default:
+        break;
     }
   };
-  const handleEditItemClick = (event) => {
-    console.log(event);
+
+  /// Edit 관련
+  const handleEditBarClose = () => {
+    setEditType(null);
+    setEditBarOpen(false);
   };
+
+  const handleEditItemClick = (event) => {
+    // 파일 선택 안되면 안열림
+    if (currentFile === undefined || currentFile.id === null) {
+      return;
+    }
+    switch (event) {
+      case 'Find':
+        setEditType('find');
+        setEditBarOpen(true);
+        break;
+      case 'Replace':
+        setEditType('replace');
+        setEditBarOpen(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleProjectItemClick = (event) => {
-    console.log(event);
+    switch (event) {
+      case 'Refresh':
+        getFiles();
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -164,6 +246,13 @@ function MenuBar({ files, getFiles }) {
           handleClose={handleFileDialogClose}
           handleSubmit={handleFileDialogSubmit}
           type={fileType}
+        />
+      )}
+      {editType !== null && (
+        <EditBar
+          open={isEditBarOpen}
+          handleClose={handleEditBarClose}
+          type={editType}
         />
       )}
       <MenuItem
@@ -185,7 +274,6 @@ function MenuBar({ files, getFiles }) {
           { name: 'Save as' },
           { name: 'Delete' },
           { name: 'Rename' },
-          { name: 'File Upload' },
         ]}
         type="menuBar"
       />

@@ -8,7 +8,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { MenuItem } from '.';
 import { CreateFileDialog } from './Dialog';
 
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   root: {},
 }));
@@ -78,7 +78,7 @@ function FileTreeTab({ directoryId, setCurrentInfo, getFiles }) {
           />
         </Grid>
         <Grid item>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={(e) => getFiles()}>
             <RefreshIcon color="primary" />
           </Button>
         </Grid>

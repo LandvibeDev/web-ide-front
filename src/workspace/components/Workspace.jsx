@@ -3,8 +3,9 @@ import { OpenFileTab, Editor, QuickIconTab } from './';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useSelector } from 'react-redux';
-import fileAPIs from '../APIs/fileAPIs';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetChanged } from '../modules/reducers';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   openFIleTab: {
     flexGrow: 1,
@@ -23,9 +24,12 @@ function Workspace() {
   const classes = useStyles();
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const currentFile = useSelector((state) => state.currentFile);
-  const openFiles = useSelector((state) => state.openFiles);
-  const directoryId = useSelector((state) => state.directoryId);
+  const currentFile = useSelector((state) => state.file.currentFile);
+  const openFiles = useSelector((state) => state.file.openFiles);
+  const directoryId = useSelector((state) => state.file.directoryId);
+  const currentContents = useSelector((state) => state.file.currentContents);
+  const dispatch = useDispatch();
+  const onResetChanged = (id) => dispatch(resetChanged(id));
 
   const saveFile = (id, contents) => {
     fileAPIs
@@ -34,6 +38,7 @@ function Workspace() {
         contents: contents,
       })
       .then((res) => {
+        onResetChanged(res.data.id);
         setFile(res.data);
       })
       .catch((e) => {
@@ -83,6 +88,7 @@ function Workspace() {
               openFiles.filter((file) => file.id === currentFile.id)[0]
             }
             saveFile={saveFile}
+            currentContents={currentContents}
           />
         )}
       </div>

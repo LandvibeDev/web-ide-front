@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 function FileTree({ setCurrentInfo, files }) {
   const classes = useStyles();
 
-  const selectedId = useSelector((state) => state.selectedId);
+  const selectedId = useSelector((state) => state.file.selectedId);
   const dispatch = useDispatch();
   const onSetSelectedId = (id) => dispatch(setSelectedId(id));
 

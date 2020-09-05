@@ -8,7 +8,7 @@ import {
   selectDirectory,
   setSelectedId,
 } from '../modules/reducers';
-import fileAPIs from '../APIs/fileAPIs';
+import fileAPIs from '../../common/APIs/fileAPIs';
 const useStyles = makeStyles((theme) => ({
   fileTree: {
     height: '71vh',
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Explorer({ files, getFiles }) {
   const classes = useStyles();
-  const directoryId = useSelector((state) => state.directoryId);
+  const directoryId = useSelector((state) => state.file.directoryId);
   // redux로 codeEditor에 보여질 파일관리
   const dispatch = useDispatch();
   const onSelectFile = (file) => dispatch(selectFile(file));

@@ -1,0 +1,138 @@
+{
+  "files": {
+    "id": 1,
+    "name": "Project",
+    "children": [
+      {
+        "id": 2,
+        "name": "src",
+        "type": "directory",
+        "permission": 777,
+        "children": [
+          {
+            "id": 3,
+            "name": "test1.js",
+            "type": "file",
+            "permission": 777
+          },
+          {
+            "id": 4,
+            "name": "test2.js",
+            "type": "file",
+            "permission": 777
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "node_modules",
+        "type": "directory",
+        "permission": 777,
+        "children": []
+      },
+      {
+        "id": 6,
+        "name": "package.json",
+        "type": "file",
+        "permission": 777
+      }
+    ]
+  },
+  "file": [
+    {
+      "name": "test1.js",
+      "id": 3,
+      "contents": "function App(){\n  return (\n  <div>\n    hello my name is k!!\n    import\n  </div>\n  );\n};\nexport default App;\ngkggk\n\n",
+      "parentId": 2
+    },
+    {
+      "name": "test2.js",
+      "id": 4,
+      "contents": "test2.js\n//차이가 뭐지 gma\nsdsf\n흠sdf\n\ndzz\n",
+      "parentId": 2
+    },
+    {
+      "name": "package.json",
+      "id": 6,
+      "contents": "import ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .port ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .\ntextscrollcheck\ncheck\ncehck\nport ieieiEffect } from 'react';\nimport AppBar from '@mama-ui/core/AppB  ar';\nimport Tabs  fromdd '@mama-ui/core/Tabs';\nimport Tab from '@mterial-ui/core/Tab';\nimport CloseIcon ddfrom '@mama-ui/icons/Close';\nimport { makeStyles } from '@mama-ui/core/styles';\n// save .\n// hello\n\n",
+      "changed": true,
+      "parentId": 1
+    },
+    {
+      "id": 2,
+      "name": "src",
+      "parentId": 1,
+      "type": "directory"
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "name": "node_modules",
+      "type": "directory"
+    },
+    {
+      "name": "d",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 7
+    },
+    {
+      "name": "둦",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 8
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 9
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 10
+    },
+    {
+      "name": "new",
+      "type": "file",
+      "permission": 777,
+      "parentId": "1",
+      "contents": "",
+      "id": 11
+    },
+    {
+      "name": "dd",
+      "type": "file",
+      "permission": 777,
+      "parentId": "1",
+      "contents": "",
+      "id": 12
+    },
+    {
+      "name": "ne",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 13
+    },
+    {
+      "name": "새",
+      "type": "file",
+      "permission": 777,
+      "parentId": 1,
+      "contents": "",
+      "id": 14
+    }
+  ]
+}
